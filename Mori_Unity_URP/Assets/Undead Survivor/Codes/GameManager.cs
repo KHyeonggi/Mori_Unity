@@ -15,15 +15,11 @@ public class GameManager : MonoBehaviour
     public GameObject CoverImage;
     public GameObject IconImage;
     public Spawner spawner;
+    public GameObject Player;
 
-    public bool isLive=false;
-
-    public void StartBBBB()
+    public void OnClickButton()
     {
-        CoverImage.SetActive(false);//배경이미지 비활
-        IconImage.SetActive(false);//로고이미지 비활
-        //spawner.Spawn(); //몬스터 생성
-        isLive=true;
+        
     }
 
     
@@ -34,14 +30,6 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (isLive==true)
-        {
-            spawner.Spawn();
-        }
-        else if (isLive == false)
-        {
-            return;
-        }
         gameTime += Time.deltaTime;
 
         if (gameTime> maxGameTime)
