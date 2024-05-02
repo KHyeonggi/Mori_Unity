@@ -15,9 +15,9 @@ public class Spawner : MonoBehaviour
         spawnPoint = GetComponentsInChildren<Transform>();   
         
     }
-
+    
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         timer += Time.deltaTime;
         level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length-1);
@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
             Spawn();
         }
     }
-    void Spawn()
+    public void Spawn()
     {
         GameObject enemy = GameManager.instance.pool.Get(0);
        
