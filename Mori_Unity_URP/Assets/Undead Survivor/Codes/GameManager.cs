@@ -16,26 +16,25 @@ public class GameManager : MonoBehaviour
     public GameObject IconImage;
     public Spawner spawner;
     public GameObject Player;
+    public PauseMenu pauseMenu;
 
     public void OnClickButton()
     {
         
     }
 
-    
-
     void Awake()
     {
         instance = this;
     }
+    public GameObject pauseMenuCanvas;
     void Update()
     {
         gameTime += Time.deltaTime;
 
-        if (gameTime> maxGameTime)
+        if (gameTime > maxGameTime)
         {
             gameTime = maxGameTime;
         }
     }
-
 }
