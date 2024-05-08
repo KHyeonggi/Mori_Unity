@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,17 @@ public class GameManager : MonoBehaviour
 
     public PoolManeger pool;
     public Player player;
+    public GameObject CoverImage;
+    public GameObject IconImage;
+    public Spawner spawner;
+    public GameObject Player;
+
+    public void OnClickButton()
+    {
+        
+    }
+
+    
 
     void Awake()
     {
