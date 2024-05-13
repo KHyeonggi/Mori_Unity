@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public float gameTime;
     public float maxGameTime = 2 *10f;
+    public bool isLive = true;
 
     public PoolManeger pool;
     public Player player;
@@ -17,6 +18,12 @@ public class GameManager : MonoBehaviour
     public Spawner spawner;
     public GameObject Player;
     public PauseMenu pauseMenu;
+    [Header("# Player Info")]
+    public int level; //레벨
+    public int exp; //경험치
+    public int[] nextExp = { 10, 30, 70, 150, 310 }; //경험치 최대량
+    public float health;
+    public float maxHealth = 100;
 
     public void OnClickButton()
     {
@@ -27,6 +34,12 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
     }
+
+    void Start()
+    {
+        health = maxHealth;
+    }
+
     public GameObject pauseMenuCanvas;
     void Update()
     {
@@ -36,5 +49,26 @@ public class GameManager : MonoBehaviour
         {
             gameTime = maxGameTime;
         }
+    }
+
+   public void GetExp()
+    {
+        exp++;//몬스터 처치시 경험치 1제공
+        if(exp == nextExp[level]) { //경험치가 현제 레벨 최대 경험치와 같다면
+            level++; //레벨 1증가
+            exp = 0; //경험치 초기화
+        }
+    }
+
+    public void Stop()
+    {
+        isLive = false;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        isLive=true;
+        Time.timeScale = 1;
     }
 }

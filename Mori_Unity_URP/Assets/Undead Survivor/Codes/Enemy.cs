@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Enemy : MonoBehaviour
 {
@@ -55,7 +56,7 @@ public class Enemy : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet"))
+        if (!collision.CompareTag("Bullet") || !isLive)
             return;
 
         health -= collision.GetComponent<Bullet>().damage;
@@ -67,6 +68,7 @@ public class Enemy : MonoBehaviour
         else//Á×¾úÀ»¶§
         {
             Dead();
+            GameManager.instance.GetExp();
         }
     }
     void Dead()
