@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -80,23 +81,25 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)//피격
+    void OnCollisionStay2D(Collision2D collision)
     {
-        if (!GameManager.instance.isLive)//죽어있다면 실행x
+        if (collision.collider.CompareTag("Enemy"))
         {
-            return;
-        }
-        GameManager.instance.health -= Time.deltaTime * 10;//닿을 때 마다 10데미지
-        Debug.Log("충돌Stay");
-
-        if(GameManager.instance.health <= 0)
-        {
-            for (int i = 1; i < transform.childCount; i++) { 
-            transform.GetChild(i).gameObject.SetActive(false);
+            if (GameManager.instance.health <= 0)
+            {
+                anim.SetTrigger("Dead");
+                GameManager.instance.GameOver();
             }
-            Spawner.SetActive(false);
 
-            anim.SetTrigger("Dead");
+            else {
+                GameManager.instance.health -= Time.deltaTime * 10;//닿을 때 마다 10데미지
+                //Debug.Log("충돌Stay");
+            }
+            
         }
+        //if (GameManager.instance.isLive == false)//죽어있다면 실행x
+        //{
+        //    return;
+        //}
     }
 }
