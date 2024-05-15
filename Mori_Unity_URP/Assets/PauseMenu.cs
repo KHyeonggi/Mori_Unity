@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class PauseMenu : MonoBehaviour
     public void Pause()//멈추기
     {
         PauseCanvas.SetActive(true);
-        Time.timeScale = 0f;
+        Time.timeScale = 0f; //시간 정지
         GameIsPaused = true;
     }
 
@@ -41,12 +42,12 @@ public class PauseMenu : MonoBehaviour
 
     public void ToMain()//메인으로
     {
-        Debug.Log("아직 미구현입니다...");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);//씬 다시 불러오기
+        Time.timeScale = 1;
     }
 
     public void QuitGame()//게임종료
     {
-        Debug.Log("아직 미구현입니다...");
         Application.Quit();
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class GameManager : MonoBehaviour
     public Spawner spawner;
     public GameObject Player;
     public PauseMenu pauseMenu;
+    public GameObject uiResult;
+    Animation anim;
+
     [Header("# Player Info")]
     public int level; //레벨
     public int exp; //경험치
@@ -69,6 +73,27 @@ public class GameManager : MonoBehaviour
     public void Resume()
     {
         isLive=true;
+        Time.timeScale = 1;
+    }
+
+
+    public void GameOver()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    IEnumerator GameOverRoutine()
+    {
+        isLive = false;
+        yield return new WaitForSeconds(0.2f);
+
+        uiResult.SetActive(true);
+        Stop();
+    }
+
+    public void GameRetry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
     }
 }
