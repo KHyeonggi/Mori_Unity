@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,12 +23,20 @@ public class GameManager : MonoBehaviour
     public GameObject uiResult;
     Animation anim;
 
+
     [Header("# Player Info")]
     public int level; //레벨
     public int exp; //경험치
     public int[] nextExp = { 10, 30, 70, 150, 310 }; //경험치 최대량
     public float health;
     public float maxHealth = 100;
+
+    public TalkManager talkManager;
+    public GameObject talkPanel;//대화창
+    public Text talkText;
+    public GameObject scanObject;
+    public bool isAction;
+    public int talkIndex;
 
     public void OnClickButton()
     {
@@ -95,5 +104,36 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
+    }
+
+    public void Action(GameObject gameObj)
+    {
+        if (isAction)
+        {
+            isAction = false;
+        }
+        else
+        {
+            isAction = true;
+            scanObject = gameObj;
+            ObjData objData = scanObject.GetComponent<ObjData>();
+            Talk(objData.id, objData.isNpc);
+        }
+        talkPanel.SetActive(isAction);
+    }
+    void Talk(int id, bool isNpc)
+    {
+        string talkData = talkManager.GetTalk(id, talkIndex);
+
+
+        if (isNpc)
+        {
+            talkText.text = talkData;
+        }
+        else
+        {
+            talkText.text = talkData;
+        }
+
     }
 }
