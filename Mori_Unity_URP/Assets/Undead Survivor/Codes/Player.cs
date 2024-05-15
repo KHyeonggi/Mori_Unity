@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed;
+    public GameObject Spawner;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
@@ -33,5 +34,25 @@ public class Player : MonoBehaviour
             spriter.flipX = inputVec.x < 0;
         }
 
+    }
+
+    void OnCollisionStay2D(Collision2D collision)//피격
+    {
+        if (!GameManager.instance.isLive)//죽어있다면 실행x
+        {
+            return;
+        }
+        GameManager.instance.health -= Time.deltaTime * 10;//닿을 때 마다 10데미지
+        Debug.Log("충돌Stay");
+
+        if(GameManager.instance.health <= 0)
+        {
+            for (int i = 1; i < transform.childCount; i++) { 
+            transform.GetChild(i).gameObject.SetActive(false);
+            }
+            Spawner.SetActive(false);
+
+            anim.SetTrigger("Dead");
+        }
     }
 }
