@@ -25,6 +25,16 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
+        // 마우스 위치를 기준으로 오브젝트 회전
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 direction = new Vector2(
+            mousePosition.x - transform.position.x,
+            mousePosition.y - transform.position.y
+        );
+
+        transform.up = direction;
+
         // 마우스 왼쪽 버튼을 클릭하고, 현재 휘두르지 않으며, 원래 자리로 돌아가지 않는 경우
         if (Input.GetMouseButtonDown(0) && !isSwinging && !isReturning)
         {
