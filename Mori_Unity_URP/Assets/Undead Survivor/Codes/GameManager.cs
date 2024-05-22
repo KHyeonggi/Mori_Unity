@@ -117,25 +117,23 @@ public class GameManager : MonoBehaviour
 
     public void Action(GameObject gameObj)
     {
-        if (isAction)
-        {
-            isAction = false;
-            Time.timeScale = 1;
-        }
-        else
-        {
-            Time.timeScale = 0;
-            isAction = true;
-            scanObject = gameObj;
-            ObjData objData = scanObject.GetComponent<ObjData>();
-            Talk(objData.id, objData.isNpc);
-        }
+
+        scanObject = gameObj;
+        ObjData objData = scanObject.GetComponent<ObjData>();
+        Talk(objData.id, objData.isNpc);
+        
         talkPanel.SetActive(isAction);
     }
     void Talk(int id, bool isNpc)
     {
         string talkData = talkManager.GetTalk(id, talkIndex);
 
+        if (talkData == null)
+        {
+            isAction = false; //대화가 끝나면 대화 종료
+            talkIndex = 0;
+            return;
+        }
 
         if (isNpc)
         {
@@ -145,6 +143,9 @@ public class GameManager : MonoBehaviour
         {
             talkText.text = talkData;
         }
+
+        isAction = true;
+        talkIndex++;
 
     }
 }

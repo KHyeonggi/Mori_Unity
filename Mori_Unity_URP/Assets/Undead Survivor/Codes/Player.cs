@@ -29,31 +29,31 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-            if (Input.GetKeyDown(KeyCode.W))
-                dirVec = Vector3.up;
-            if (Input.GetKey("up"))
-                dirVec = Vector3.up;
+        if (Input.GetKeyDown(KeyCode.W)) //위에있는 오브젝트 인식
+            dirVec = Vector3.up;
+        if (Input.GetKey("up"))
+            dirVec = Vector3.up;
 
-            else if (Input.GetKeyDown(KeyCode.S))
-                dirVec = Vector3.down;
-            else if (Input.GetKey("down"))
-                dirVec = Vector3.down;
+        else if (Input.GetKeyDown(KeyCode.S)) //아래에 있는 오브젝트 인식
+            dirVec = Vector3.down;
+        else if (Input.GetKey("down"))
+            dirVec = Vector3.down;
 
-            else if (Input.GetKeyDown(KeyCode.A))
-                dirVec = Vector3.left;
-            else if (Input.GetKey("left"))
-                dirVec = Vector3.left;
+        else if (Input.GetKeyDown(KeyCode.A)) //왼쪽에 있는 오브젝트 인식
+            dirVec = Vector3.left;
+        else if (Input.GetKey("left"))
+            dirVec = Vector3.left;
 
-            else if ((Input.GetKeyDown(KeyCode.D)))
-                dirVec = Vector3.right;
-            else if (Input.GetKey("right"))
-                dirVec = Vector3.right;
+        else if ((Input.GetKeyDown(KeyCode.D))) //오른쪽에 있는 오브젝트 인식
+            dirVec = Vector3.right;
+        else if (Input.GetKey("right"))
+            dirVec = Vector3.right;
         
             //Scan Object 
-            if (Input.GetButtonDown("Jump") && scanObject != null)
-            {
-                manager.Action(scanObject);
-            }
+        if (Input.GetButtonDown("Jump") && scanObject != null) //오브젝트 앞에서 점프를 누르면 대화창이 나옴
+        {
+            manager.Action(scanObject);
+        }
         
     }
 
