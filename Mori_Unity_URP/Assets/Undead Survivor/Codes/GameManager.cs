@@ -62,6 +62,15 @@ public class GameManager : MonoBehaviour
         {
             gameTime = maxGameTime;
         }
+
+        if (talkPanel.activeSelf == true)//대화창 열리면 게임 멈춤
+        {
+            Stop();
+        }
+        else if (talkPanel.activeSelf == false)//대화창 닫히면 게임 진행
+        {
+            Resume();
+        }
     }
 
    public void GetExp()
@@ -111,9 +120,11 @@ public class GameManager : MonoBehaviour
         if (isAction)
         {
             isAction = false;
+            Time.timeScale = 1;
         }
         else
         {
+            Time.timeScale = 0;
             isAction = true;
             scanObject = gameObj;
             ObjData objData = scanObject.GetComponent<ObjData>();

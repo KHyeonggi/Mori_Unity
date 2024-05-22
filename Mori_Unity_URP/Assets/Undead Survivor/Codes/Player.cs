@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public GameManager manager;
     Vector3 dirVec;
     GameObject scanObject;
+    public GameObject talkPanel;
 
     void Awake()
     {
@@ -28,34 +29,32 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-            dirVec = Vector3.up;
-        if (Input.GetKey("up"))
-            dirVec = Vector3.up;
+            if (Input.GetKeyDown(KeyCode.W))
+                dirVec = Vector3.up;
+            if (Input.GetKey("up"))
+                dirVec = Vector3.up;
 
-        else if (Input.GetKeyDown(KeyCode.S))
-            dirVec = Vector3.down;
-        else if (Input.GetKey("down"))
-            dirVec = Vector3.down;
+            else if (Input.GetKeyDown(KeyCode.S))
+                dirVec = Vector3.down;
+            else if (Input.GetKey("down"))
+                dirVec = Vector3.down;
 
-        else if (Input.GetKeyDown(KeyCode.A))
-            dirVec = Vector3.left;
-        else if (Input.GetKey("left"))
-            dirVec = Vector3.left;
+            else if (Input.GetKeyDown(KeyCode.A))
+                dirVec = Vector3.left;
+            else if (Input.GetKey("left"))
+                dirVec = Vector3.left;
 
-        else if ((Input.GetKeyDown(KeyCode.D)))
-            dirVec = Vector3.right;
-        else if (Input.GetKey("right"))
-            dirVec = Vector3.right;
-
-        //Scan Object 
-        if (Input.GetButtonDown("Jump") && scanObject != null)
-        {
-            manager.Action(scanObject);
-
-        }
-            
-
+            else if ((Input.GetKeyDown(KeyCode.D)))
+                dirVec = Vector3.right;
+            else if (Input.GetKey("right"))
+                dirVec = Vector3.right;
+        
+            //Scan Object 
+            if (Input.GetButtonDown("Jump") && scanObject != null)
+            {
+                manager.Action(scanObject);
+            }
+        
     }
 
     void FixedUpdate()
@@ -94,7 +93,7 @@ public class Player : MonoBehaviour
             if (GameManager.instance.health <= 0)
             {
                 anim.SetTrigger("Dead");
-                //GameManager.instance.GameOver();
+                GameManager.instance.GameOver();
             }
 
             else {
@@ -107,5 +106,14 @@ public class Player : MonoBehaviour
         //{
         //    return;
         //}
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("FieldItem"))
+        {
+            FieldItem fieldItem = collision.GetComponent<FieldItem>();
+            fieldItem.DestroyItem(); //필드 아이템 삭제
+            
+        }
     }
 }

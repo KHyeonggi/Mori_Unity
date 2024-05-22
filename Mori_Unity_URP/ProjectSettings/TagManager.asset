@@ -8,6 +8,8 @@ TagManager:
   - Area
   - Enemy
   - Bullet
+  - Slot
+  - FieldItem
   layers:
   - Default
   - TransparentFX
