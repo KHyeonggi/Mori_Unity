@@ -107,13 +107,4 @@ public class Player : MonoBehaviour
         //    return;
         //}
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("FieldItem"))
-        {
-            FieldItem fieldItem = collision.GetComponent<FieldItem>();
-            fieldItem.DestroyItem(); //필드 아이템 삭제
-            
-        }
-    }
 }
