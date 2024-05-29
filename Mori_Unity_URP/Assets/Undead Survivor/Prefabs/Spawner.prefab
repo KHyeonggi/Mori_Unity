@@ -48,13 +48,18 @@ MonoBehaviour:
   spawnPoint: []
   spawnData:
   - spritType: 0
+    moveDistance: 7
+    health: 20
+    speed: 2.1
     spawnTime: 0.7
-    health: 10
-    speed: 2
   - spritType: 1
-    spawnTime: 0.5
-    health: 15
+    moveDistance: 7
+    health: 25
     speed: 2.4
+    spawnTime: 0.5
+  spawnInterval: 5
+  spawnAmount: 1
+  spawnDuration: 30
 --- !u!1 &4692778291539330853
 GameObject:
   m_ObjectHideFlags: 0
