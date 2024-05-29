@@ -8678,6 +8678,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
+        type: 3}
+      propertyPath: spawnData.Array.data[0].moveDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
+        type: 3}
+      propertyPath: spawnData.Array.data[1].moveDistance
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4465577688572799584, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: m_Name
@@ -13281,7 +13291,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.64375
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

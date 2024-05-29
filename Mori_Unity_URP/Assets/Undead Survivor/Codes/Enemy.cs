@@ -6,6 +6,7 @@ using UnityEngine.Playables;
 public class Enemy : MonoBehaviour
 {
     public float speed;
+    public float moveDistance;
     public float health;
     public float maxHealth;
     public RuntimeAnimatorController[] animCon;
@@ -29,9 +30,14 @@ public class Enemy : MonoBehaviour
         if (!isLive){
             return;
         }
-        Vector2 dirVec = target.position - rigid.position; //위치 차이 = 타겟위치 - 나의 위치
-        Vector2 nextVec = dirVec.normalized*speed*Time.fixedDeltaTime;
-        rigid.MovePosition(rigid.position + nextVec);
+        float distanceToTarget = Vector2.Distance(rigid.position, target.position);
+
+        if (distanceToTarget <= moveDistance)
+        {
+            Vector2 dirVec = target.position - rigid.position; // 위치 차이 계산
+            Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime; // 다음 프레임에서 이동할 벡터 계산
+            rigid.MovePosition(rigid.position + nextVec); // 새로운 위치로 이동
+        }
         rigid.velocity = Vector2.zero;
     }
     void LateUpdate()
@@ -43,7 +49,7 @@ public class Enemy : MonoBehaviour
     }
     void OnEnable()
     {
-        target =GameManager.instance.player.GetComponent<Rigidbody2D>();
+        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         isLive = true;
         health = maxHealth;
     }
@@ -51,8 +57,10 @@ public class Enemy : MonoBehaviour
     {
         anim.runtimeAnimatorController = animCon[data.spritType];
         speed = data.speed;
+        moveDistance = data.moveDistance;
         maxHealth = data.health;
         health = data.health;
+
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
