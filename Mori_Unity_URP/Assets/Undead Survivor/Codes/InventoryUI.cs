@@ -33,7 +33,6 @@ public class InventoryUI : MonoBehaviour
 
     public void ReDrawSlotUI()
     {
-        Debug.Log("redrawslotui");
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].RemoveSlot();
@@ -44,7 +43,4 @@ public class InventoryUI : MonoBehaviour
             slots[i].UpdateSlotUI();
         }
     }
-
-
-
 }

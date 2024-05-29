@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        Player.gameObject.SetActive(false);
     }
 
     public GameObject pauseMenuCanvas;
