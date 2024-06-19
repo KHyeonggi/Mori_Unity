@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,42 +20,37 @@ public class Player : MonoBehaviour
     Vector3 dirVec;
     GameObject scanObject;
     public GameObject talkPanel;
+    private PlayerControls controls;
 
     void Awake()
     {
-        rigid=GetComponent<Rigidbody2D>();
-        spriter=GetComponent<SpriteRenderer>();
-        anim=GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody2D>();
+        spriter = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
+
+
+
+
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W)) //위에있는 오브젝트 인식
+        if (Input.GetKey(KeyCode.W) || Input.GetKey("up"))//위에있는 오브젝트 인식
             dirVec = Vector3.up;
-        if (Input.GetKey("up"))
-            dirVec = Vector3.up;
-
-        else if (Input.GetKeyDown(KeyCode.S)) //아래에 있는 오브젝트 인식
+        else if (Input.GetKey(KeyCode.S) || Input.GetKey("down"))//아래에 있는 오브젝트 인식
             dirVec = Vector3.down;
-        else if (Input.GetKey("down"))
-            dirVec = Vector3.down;
-
-        else if (Input.GetKeyDown(KeyCode.A)) //왼쪽에 있는 오브젝트 인식
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey("left"))//왼쪽에 있는 오브젝트 인식
             dirVec = Vector3.left;
-        else if (Input.GetKey("left"))
-            dirVec = Vector3.left;
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey("right"))//오른쪽에 있는 오브젝트 인식
+            dirVec = Vector3.right;
 
-        else if ((Input.GetKeyDown(KeyCode.D))) //오른쪽에 있는 오브젝트 인식
-            dirVec = Vector3.right;
-        else if (Input.GetKey("right"))
-            dirVec = Vector3.right;
-        
-            //Scan Object 
-        if (Input.GetButtonDown("Jump") && scanObject != null) //오브젝트 앞에서 점프를 누르면 대화창이 나옴
+    }
+    private void OnInspect()//오브젝트 인식
+    {
+        if (scanObject != null)
         {
             manager.Action(scanObject);
         }
-        
     }
 
     void FixedUpdate()
@@ -107,4 +103,8 @@ public class Player : MonoBehaviour
         //    return;
         //}
     }
+}
+
+internal class PlayerControls
+{
 }

@@ -32,16 +32,13 @@ public class GameManager : MonoBehaviour
     public float maxHealth = 100;
 
     public TalkManager talkManager;
+    public QuestManager questManager;
     public GameObject talkPanel;//대화창
     public Text talkText;
     public GameObject scanObject;
     public bool isAction;
     public int talkIndex;
 
-    public void OnClickButton()
-    {
-        
-    }
 
     void Awake()
     {
@@ -127,12 +124,14 @@ public class GameManager : MonoBehaviour
     }
     void Talk(int id, bool isNpc)
     {
-        string talkData = talkManager.GetTalk(id, talkIndex);
+        int questTalkIndex = questManager.GetQuestTalkIndex(id);
+        string talkData = talkManager.GetTalk(id+ questTalkIndex,talkIndex);
 
         if (talkData == null)
         {
             isAction = false; //대화가 끝나면 대화 종료
             talkIndex = 0;
+            Debug.Log(questManager.CheckQuest(id));
             return;
         }
 
