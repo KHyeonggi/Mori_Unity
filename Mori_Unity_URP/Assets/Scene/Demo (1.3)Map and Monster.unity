@@ -308,7 +308,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -762,7 +762,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -1744,7 +1744,7 @@ RectTransform:
   m_Father: {fileID: 430813158}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2388,7 +2388,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -3588,7 +3588,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -4646,7 +4646,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &510849179
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4753,7 +4753,7 @@ Transform:
   m_GameObject: {fileID: 510849178}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.73, y: 0.88, z: 0}
+  m_LocalPosition: {x: 4.77, y: 50.53, z: 0}
   m_LocalScale: {x: 0.7081, y: 0.7081, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5489,7 +5489,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -5548,7 +5548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!70 &601568002
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -7273,7 +7273,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -9126,7 +9126,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -9792,7 +9792,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -12345,7 +12345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1556653927
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12452,7 +12452,7 @@ Transform:
   m_GameObject: {fileID: 1556653926}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.52, y: 0.85, z: 0}
+  m_LocalPosition: {x: 3.45, y: 6.86, z: 0}
   m_LocalScale: {x: 0.7887, y: 0.7887, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13782,7 +13782,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnAmount
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -14438,6 +14438,7 @@ MonoBehaviour:
   health: 0
   maxHealth: 100
   talkManager: {fileID: 1017178564}
+  questManager: {fileID: 0}
   talkPanel: {fileID: 1133189093}
   talkText: {fileID: 1249167379}
   scanObject: {fileID: 0}
@@ -14876,7 +14877,7 @@ RectTransform:
   m_Father: {fileID: 1539445439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
