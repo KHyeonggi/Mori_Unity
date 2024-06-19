@@ -4771,7 +4771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea173cb9c142fa34c850d50988d01056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2000
+  id: 1034
   isNpc: 1
 --- !u!1001 &517779176
 PrefabInstance:
@@ -12518,7 +12518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea173cb9c142fa34c850d50988d01056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1000
+  id: 1033
   isNpc: 1
 --- !u!1001 &1596126881
 PrefabInstance:

@@ -6334,7 +6334,7 @@ GameObject:
   - component: {fileID: 1440161022}
   - component: {fileID: 1440161021}
   - component: {fileID: 1440161020}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: orb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6440,7 +6440,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 921929ed247aa4b4fbdb80a32ceb5be1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
