@@ -106,4 +106,14 @@ public class Enemy : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+    public delegate void EnemyDeathHandler(GameObject enemy);
+    public static event EnemyDeathHandler OnEnemyDeath;
+
+    void OnDestroy()
+    {
+        if (OnEnemyDeath != null)
+        {
+            OnEnemyDeath(gameObject);
+        }
+    }
 }
