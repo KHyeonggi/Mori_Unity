@@ -861,14 +861,22 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 351
+        y: 352
         width: 32
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+<<<<<<< Updated upstream
       physicsShape: []
+=======
+      physicsShape:
+      - - {x: -12.857414, y: -8.343567}
+        - {x: -12.742889, y: 9.184296}
+        - {x: 12.536217, y: 9.298828}
+        - {x: 12.536209, y: -8.458099}
+>>>>>>> Stashed changes
       tessellationDetail: 0
       bones: []
       spriteID: a98380b527de88e41a465f8fe77eacda
