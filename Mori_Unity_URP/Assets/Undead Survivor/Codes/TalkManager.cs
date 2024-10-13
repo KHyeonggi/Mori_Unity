@@ -19,7 +19,7 @@ public class TalkManager : MonoBehaviour
 
         //퀘스트 대화
         talkData.Add(10 + 1000, new string[] { "부탁이 있는데...","들어줄거면 다시 말 걸어줘"  });
-        talkData.Add(11 + 1000, new string[] { "흩어진 내 힘을 가져와 줄 수 있어? (오른쪽으로 가면 해결할 수 있을꺼같다.)" });
+        talkData.Add(11 + 1000, new string[] { "흩어진 내 힘을 가져와 줄 수 있어? (오른쪽으로 가면 해결할 수 있을 것 같다.)" });
         talkData.Add(20 + 5000, new string[] { "흩어진 물의 힘을 찾았다.", });
 
         talkData.Add(21 + 1000, new string[] { "고마워", });

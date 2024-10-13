@@ -20,6 +20,11 @@ public class InventoryUI : MonoBehaviour
         slots = slotHolder.GetComponentsInChildren<Slot>();
         InventoryPanel.SetActive(activeInventory);//게임 시작시 인벤토리 비활성화
         inven.onChangeItem += ReDrawSlotUI;
+        for(int i=0; i<slots.Length; i++)
+        {
+            slots[i].slotnum = i;
+            Debug.Log("슬롯 갯수" + slots[i]);
+        }
     }
 
     private void Update()
