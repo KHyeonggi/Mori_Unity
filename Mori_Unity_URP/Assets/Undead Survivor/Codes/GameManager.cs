@@ -50,8 +50,20 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         health = maxHealth;
-        Player.gameObject.SetActive(false);
+        //Player.gameObject.SetActive(false);
     }
+    public void SetPlayer(GameObject player)
+    {
+        Player = player;
+
+        // 씬 내 모든 Enemy를 찾아 target을 설정합니다.
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.SetTarget(player.GetComponent<Rigidbody2D>());
+        }
+    }
+
 
     public GameObject pauseMenuCanvas;
     void Update()

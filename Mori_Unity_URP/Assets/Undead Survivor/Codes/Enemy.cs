@@ -124,5 +124,10 @@ public class Enemy : MonoBehaviour
             OnEnemyDeath(gameObject);  // 적 파괴 시 이벤트 호출
         }
     }
+    public void SetTarget(Rigidbody2D playerTarget)
+    {
+        target = playerTarget;
+    }
+
 
 }
