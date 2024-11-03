@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject IconImage;
     public Spawner spawner;
     public GameObject Player;
+    public Text UINameText;
     public PauseMenu pauseMenu;
     public GameObject uiResult;
     Animation anim;
@@ -117,7 +119,10 @@ public class GameManager : MonoBehaviour
     {
 
         scanObject = gameObj;
+        string objectName = scanObject.name;
         ObjData objData = scanObject.GetComponent<ObjData>();
+
+        UINameText.text = objectName; // 여기서 이름을 UI에 설정
         Talk(objData.id, objData.isNpc);
         
         talkPanel.SetActive(isAction);
@@ -126,6 +131,7 @@ public class GameManager : MonoBehaviour
     {
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = talkManager.GetTalk(id+ questTalkIndex,talkIndex);
+        string npcName = talkManager.GetName(id, talkIndex);
 
         if (talkData == null)
         {
@@ -137,10 +143,12 @@ public class GameManager : MonoBehaviour
 
         if (isNpc)
         {
+            UINameText.text = npcName; // NPC 이름을 UI에 표시
             talkText.text = talkData;
         }
         else
         {
+            UINameText.text = "모리"; // 플레이어의 이름 설정
             talkText.text = talkData;
         }
 

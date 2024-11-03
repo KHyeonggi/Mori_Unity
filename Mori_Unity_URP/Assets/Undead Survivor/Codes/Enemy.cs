@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     Animator anim;
     SpriteRenderer spriter;
     WaitForFixedUpdate wait;
+
     void Awake()
     {
         coll =GetComponent<Collider2D>();
@@ -102,8 +103,26 @@ public class Enemy : MonoBehaviour
         rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
     }
 
+    public delegate void EnemyDeathHandler(GameObject enemy);
+    public event EnemyDeathHandler OnEnemyDeath;
+
     void Dead()
     {
-        gameObject.SetActive(false);
+        if (OnEnemyDeath != null)
+        {
+            OnEnemyDeath(gameObject);  // 이벤트 호출
+        }
+
+        gameObject.SetActive(false);  // 적 비활성화
     }
+
+    // 적이 파괴되거나 사망 시 호출될 수 있는 메서드
+    void OnDestroy()
+    {
+        if (OnEnemyDeath != null)
+        {
+            OnEnemyDeath(gameObject);  // 적 파괴 시 이벤트 호출
+        }
+    }
+
 }
