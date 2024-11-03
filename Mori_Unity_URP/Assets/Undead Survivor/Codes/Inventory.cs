@@ -50,6 +50,12 @@ public class Inventory : MonoBehaviour
         return false; //아이템 추가 실패시 false
     }
 
+    public void RemoveItem(int _index)
+    {
+        items.RemoveAt(_index);
+        onChangeItem.Invoke();
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision) //아이템과 접촉시
     {

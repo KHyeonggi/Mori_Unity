@@ -17,9 +17,15 @@ public class Item
     public ItemType itemType;
     public string itemName;
     public Sprite itemImage;
-
+    public List<ItemEffect> efts;
     public bool Use()//아이템 사용가능 여부
     {
-        return false;
+        bool isUsed = false;
+        foreach (ItemEffect eft in efts) 
+        {
+            isUsed = eft.ExecuteRole();
+        }
+        return isUsed;
+        Debug.Log("item.use = true");
     }
 }

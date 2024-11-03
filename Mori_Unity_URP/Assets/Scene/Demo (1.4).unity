@@ -1103,6 +1103,7 @@ MonoBehaviour:
     itemType: 0
     itemName: 
     itemImage: {fileID: 0}
+    efts: []
   itemIcon: {fileID: 89463376}
 --- !u!1 &99054004
 GameObject:
@@ -1850,7 +1851,7 @@ RectTransform:
   m_Father: {fileID: 430813158}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3455,12 +3456,17 @@ MonoBehaviour:
   - itemType: 0
     itemName: Strawberry
     itemImage: {fileID: 21300000, guid: 7ec850149b619bf4c810a2cc9b423003, type: 3}
+    efts:
+    - {fileID: 11400000, guid: cb4ba5b755688de4baa090d5c77d6003, type: 2}
   - itemType: 0
     itemName: BigPotion
     itemImage: {fileID: 21300000, guid: f572fb73444f98b49a3f8cca4c5a1f73, type: 3}
+    efts:
+    - {fileID: 11400000, guid: 4ad32d54bf3f2c4459e8ec55d0497cd8, type: 2}
   - itemType: 0
     itemName: Candy
     itemImage: {fileID: 21300000, guid: 950d4fbefea4a79478beaa90ab075aa9, type: 3}
+    efts: []
   fieldItemPrefab: {fileID: 5681187203527606388, guid: bb325a933f8cb5a45bbd4760f2f88f8a,
     type: 3}
   pos:
@@ -6244,7 +6250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!70 &601568002
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -16520,7 +16526,7 @@ RectTransform:
   m_Father: {fileID: 1539445439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -17886,4 +17892,7 @@ SceneRoots:
   - {fileID: 417423336}
   - {fileID: 762397437}
   - {fileID: 1859285033}
+<<<<<<< HEAD
+=======
   - {fileID: 614845436}
+>>>>>>> 6700163c7652e790ff16468b96835687fd1d9f4c
