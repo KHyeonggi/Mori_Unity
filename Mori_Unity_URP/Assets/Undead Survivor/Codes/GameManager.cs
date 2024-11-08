@@ -41,12 +41,26 @@ public class GameManager : MonoBehaviour
     public bool isAction;
     public int talkIndex;
 
-
+    public bool gameStarted = false; // 게임이 시작되었는지 여부를 나타내는 변수 추가
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            Debug.Log("GameManager instance initialized."); // 디버그 로그로 초기화 확인
+        }
+        else
+        {
+            Debug.LogWarning("Multiple GameManager instances detected!");
+        }
     }
 
+    public void StartGame()
+    {
+        // 게임 시작 버튼 클릭 시 호출되는 메서드
+        gameStarted = true;
+        // UI 숨기기 등 다른 시작 관련 로직 처리
+    }
     void Start()
     {
         health = maxHealth;
@@ -94,32 +108,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Stop()
-    {
-        isLive = false;
-        Time.timeScale = 0;
-    }
-
     public void Resume()
     {
         isLive=true;
         Time.timeScale = 1;
     }
-
-
     public void GameOver()
     {
-        StartCoroutine(GameOverRoutine());
+        if (!isLive) return; // 이미 게임 오버 상태라면 더 이상 실행하지 않음
+
+        uiResult.SetActive(true); // 게임 오버 UI 활성화
+        Debug.Log("Game Over!"); // 게임 오버 상태 로그 출력 (디버깅용)
+        Stop(); // 즉시 게임 정지
     }
 
-    IEnumerator GameOverRoutine()
+    public void Stop()
     {
+        gameStarted = false;
         isLive = false;
-        yield return new WaitForSeconds(0.2f);
-
-        uiResult.SetActive(true);
-        Stop();
+        Time.timeScale = 0; // 게임 멈추기
+        Debug.Log("Game stopped. Time.timeScale: " + Time.timeScale); // Time.timeScale 값 확인
     }
+
 
     public void GameRetry()
     {

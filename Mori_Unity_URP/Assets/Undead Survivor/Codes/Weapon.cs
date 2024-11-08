@@ -83,7 +83,7 @@ public class Weapon : MonoBehaviour
         {
             case 0:
                 speed = -150; // 속도 설정
-                Batch(); // Batch 함수 실행
+                //Batch(); // Batch 함수 실행
                 break;
             default:
                 break;
@@ -91,20 +91,20 @@ public class Weapon : MonoBehaviour
     }
 
     // 총알 배치를 위한 함수
-    void Batch()
-    {
-        for (int index = 0; index < count; index++)
-        {
-            Transform bullet = GameManager.instance.pool.Get(prefabid).transform; // 총알 가져오기
-            bullet.parent = transform; // 부모 설정
+    //void Batch()
+    //{
+    //    for (int index = 0; index < count; index++)
+    //    {
+    //        Transform bullet = GameManager.instance.pool.Get(prefabid).transform; // 총알 가져오기
+    //        bullet.parent = transform; // 부모 설정
 
-            Bullet bulletComponent = bullet.GetComponent<Bullet>(); // Bullet 컴포넌트 가져오기
-            if (bulletComponent == null)
-            {
-                bulletComponent = bullet.gameObject.AddComponent<Bullet>(); // 없다면 Bullet 컴포넌트 추가
-            }
-            bulletComponent.Init(damage, -1); // Bullet 초기화
-        }
-    }
+    //        Bullet bulletComponent = bullet.GetComponent<Bullet>(); // Bullet 컴포넌트 가져오기
+    //        if (bulletComponent == null)
+    //        {
+    //            bulletComponent = bullet.gameObject.AddComponent<Bullet>(); // 없다면 Bullet 컴포넌트 추가
+    //        }
+    //        bulletComponent.Init(damage, -1); // Bullet 초기화
+    //    }
+    //}
 }
 

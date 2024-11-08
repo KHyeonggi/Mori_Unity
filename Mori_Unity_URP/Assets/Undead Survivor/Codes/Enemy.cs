@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class Enemy : MonoBehaviour
 {
@@ -22,18 +21,26 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
-        coll =GetComponent<Collider2D>();
+        coll = GetComponent<Collider2D>();
         rigid = GetComponent<Rigidbody2D>();
-        anim=GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
         wait = new WaitForFixedUpdate();
     }
 
     void FixedUpdate()
     {
-        if (!isLive|| anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")){
+        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit") || !GameManager.instance.gameStarted)
+        {
             return;
         }
+
+        if (target == null)
+        {
+            Debug.LogWarning("Target is not assigned for the enemy.");
+            return;
+        }
+
         float distanceToTarget = Vector2.Distance(rigid.position, target.position);
 
         if (distanceToTarget <= moveDistance)
@@ -44,24 +51,34 @@ public class Enemy : MonoBehaviour
         }
         rigid.velocity = Vector2.zero;
     }
+
     void LateUpdate()
     {
-        if (!isLive)
+        if (!isLive || target == null)
             return;
 
         spriter.flipX = target.position.x < rigid.position.x;
     }
+
     void OnEnable()
     {
-        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        if (GameManager.instance != null && GameManager.instance.player != null)
+        {
+            target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        }
+        else
+        {
+            Debug.LogWarning("Player target not found for the enemy.");
+        }
+
         isLive = true;
         health = maxHealth;
-        isLive =true;
         coll.enabled = true;
-        rigid.simulated=true;
+        rigid.simulated = true;
         spriter.sortingOrder = 2;
         anim.SetBool("Dead", false);
     }
+
     public void Init(SpawnData data)
     {
         anim.runtimeAnimatorController = animCon[data.spritType];
@@ -69,8 +86,8 @@ public class Enemy : MonoBehaviour
         moveDistance = data.moveDistance;
         maxHealth = data.health;
         health = data.health;
-
     }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Bullet") || !isLive)
@@ -79,28 +96,41 @@ public class Enemy : MonoBehaviour
         health -= collision.GetComponent<Bullet>().damage;
         StartCoroutine(KnockBack());
 
-        if (health>0)//살았을때
+        if (health > 0) // 살아 있을 때
         {
             anim.SetTrigger("Hit");
         }
-        else//죽었을때
+        else // 죽었을 때
         {
-            isLive =false;
+            isLive = false;
             coll.enabled = false;
-            rigid.simulated=false;
+            rigid.simulated = false;
             spriter.sortingOrder = 1;
             anim.SetBool("Dead", true);
             GameManager.instance.GetExp();
+
+            // 적이 죽었을 때 Dead() 메서드를 일정 시간 후 호출하여 비활성화
+            StartCoroutine(HandleDeath());
         }
+    }
+
+    IEnumerator HandleDeath()
+    {
+        // 죽음 애니메이션 재생 후 잠시 기다렸다가 Dead() 호출
+        yield return new WaitForSeconds(1.0f); // 애니메이션 길이에 따라 조정 가능
+        Dead();
     }
 
     IEnumerator KnockBack()
     {
         yield return wait;
 
-        Vector3 playerPos = GameManager.instance.player.transform.position;
-        Vector3 dirVec = transform.position - playerPos;
-        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+        if (GameManager.instance.player != null)
+        {
+            Vector3 playerPos = GameManager.instance.player.transform.position;
+            Vector3 dirVec = transform.position - playerPos;
+            rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+        }
     }
 
     public delegate void EnemyDeathHandler(GameObject enemy);
@@ -124,10 +154,9 @@ public class Enemy : MonoBehaviour
             OnEnemyDeath(gameObject);  // 적 파괴 시 이벤트 호출
         }
     }
+
     public void SetTarget(Rigidbody2D playerTarget)
     {
         target = playerTarget;
     }
-
-
 }
