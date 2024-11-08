@@ -1099,6 +1099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f154320b3f70a6c49830f330f6528e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotnum: 0
   item:
     itemType: 0
     itemName: 
@@ -6511,7 +6512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 000d3931ce5c25242aef9615f312010d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 1448790463}
+  nameText: {fileID: 0}
   talkText: {fileID: 0}
 --- !u!4 &614845436
 Transform:
@@ -15657,7 +15658,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

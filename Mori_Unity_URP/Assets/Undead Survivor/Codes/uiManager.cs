@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEditor.Rendering;
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -14,13 +16,16 @@ public class UIManager : MonoBehaviour
             nameText.text = name; // 이름 설정
         }
     }
-
     public void SetTalkText(string talk)
     {
         if (talkText != null)
         {
             talkText.text = talk; // 대사 설정
         }
+    }
+    public void AddToTalkText(string letter)
+    {
+        talkText.text += letter;
     }
 }
 

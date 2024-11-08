@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     public bool isAction;
     public int talkIndex;
 
+    private Coroutine typingCoroutine;
+    private bool isTyping = false; // 타이핑 중인지 여부
 
     void Awake()
     {
@@ -151,9 +153,31 @@ public class GameManager : MonoBehaviour
             UINameText.text = "모리"; // 플레이어의 이름 설정
             talkText.text = talkData;
         }
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+        typingCoroutine = StartCoroutine(TypeEffect(talkData));
 
         isAction = true;
         talkIndex++;
+    }
+    // 타이핑 효과 코루틴
+    IEnumerator TypeEffect(string talkData)
+    {
+        talkText.text = ""; // 기존 텍스트 초기화
+        isTyping = true; // 타이핑 중으로 설정
 
+        foreach (char letter in talkData.ToCharArray())
+        {
+            talkText.text += letter; // 한 글자씩 추가
+            yield return new WaitForSecondsRealtime(0.02f); // 타이핑 속도 조절
+        }
+
+        // 타이핑 효과가 끝난 후 1초 대기
+        yield return new WaitForSecondsRealtime(1f);
+
+        isTyping = false; // 타이핑이 끝났음을 표시
+        typingCoroutine = null; // 코루틴이 완료되었음을 표시
     }
 }
