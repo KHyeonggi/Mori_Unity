@@ -9,6 +9,7 @@ public class Slot : MonoBehaviour, IPointerUpHandler, IPointerClickHandler, IPoi
     public int slotnum;
     public Item item;
     public Image itemIcon;
+    bool isUse;
 
     public void UpdateSlotUI()
     {
@@ -29,14 +30,16 @@ public class Slot : MonoBehaviour, IPointerUpHandler, IPointerClickHandler, IPoi
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
-        bool isUse = item.Use();
-        if (isUse)
+        bool isactive = itemIcon.gameObject.activeSelf;
+        if (isactive == true)
         {
-            Inventory.instance.RemoveItem(slotnum);
-            Debug.Log(slotnum);
+            isUse = item.Use();
+            if (isUse)
+            {
+                Inventory.instance.RemoveItem(slotnum);
+                Debug.Log(slotnum + "½½·Ô »ç¿ë");
+            }
         }
-        
     }
 
     public void OnPointerDown(PointerEventData eventData)
