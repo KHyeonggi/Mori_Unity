@@ -4537,7 +4537,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1973395498}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnClickButton
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7485,6 +7485,7 @@ MonoBehaviour:
   scanObject: {fileID: 0}
   isAction: 1
   talkIndex: 0
+  gameStarted: 0
   pauseMenuCanvas: {fileID: 0}
 --- !u!4 &1973395499
 Transform:
