@@ -21,18 +21,25 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private GameObject[] itemPrefabs;    // 아이템 프리팹 배열
 
     [SerializeField] private GameObject playerPrefab; // 플레이어 프리팹
+    [SerializeField] private GameObject bossPrefab;
 
     void Start()
     {
         FillBackground(); // 씬 로드 시 전부 다 바깥 타일로 덮음
         Node root = new Node(new RectInt(0, 0, mapSize.x, mapSize.y));
         Divide(root, 0);
-        GenerateRoom(root);
+        List<Node> leafNodes = new List<Node>();
+        GetLeafNodes(root, leafNodes);
+
+        Node bossRoomNode = SelectBossRoom(leafNodes);
+        GenerateRoom(root, bossRoomNode);
         GenerateLoad(root);
         FillWall(); // 바깥과 방이 만나는 지점을 벽으로 칠해주는 함수
-        
-        // **플레이어 스폰 함수 호출**
-        SpawnPlayer(root);
+
+        SpawnPlayer(root); //**플레이어 스폰 함수 호출**
+        SpawnBoss(bossRoomNode); // 보스 스폰
+
+        FillWall(); // 바깥과 방이 만나는 지점을 벽으로 칠해주는 함수
     }
 
     void Divide(Node tree, int depth)
@@ -68,7 +75,7 @@ public class MapGenerator : MonoBehaviour
         Divide(tree.rightNode, depth + 1);
     }
 
-    private void GenerateRoom(Node tree)
+    private void GenerateRoom(Node tree, Node bossRoomNode)
     {
         if (tree.leftNode == null && tree.rightNode == null) // 리프 노드인 경우
         {
@@ -86,22 +93,46 @@ public class MapGenerator : MonoBehaviour
             FillRoom(tree.roomRect);
 
             // **몬스터와 아이템 배치 추가**
-            PlaceContentInRoom(tree.roomRect);
+            if (tree != bossRoomNode)
+            {
+                PlaceContentInRoom(tree.roomRect);
+            }
         }
         else
         {
             if (tree.leftNode != null)
-                GenerateRoom(tree.leftNode);
+                GenerateRoom(tree.leftNode, bossRoomNode);
             if (tree.rightNode != null)
-                GenerateRoom(tree.rightNode);
+                GenerateRoom(tree.rightNode, bossRoomNode);
         }
     }
+    private Node SelectBossRoom(List<Node> leafNodes)
+    {
+        // 가장 큰 리프 노드를 보스 방으로 선택
+        Node bossRoomNode = leafNodes[0];
+        foreach (Node node in leafNodes)
+        {
+            if (node.nodeRect.size.magnitude > bossRoomNode.nodeRect.size.magnitude)
+            {
+                bossRoomNode = node;
+            }
+        }
+        return bossRoomNode;
+    }
 
+    private void SpawnBoss(Node bossRoomNode)
+    {
+        if (bossRoomNode != null)
+        {
+            Vector3 spawnPosition = GetRandomPositionInRoom(bossRoomNode.roomRect);
+            Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+        }
+    }
     private void PlaceContentInRoom(RectInt roomRect)
     {
         // 몬스터와 아이템의 개수를 랜덤하게 결정합니다.
-        int monsterCount = Random.Range(4, 9); // 각 방에 1~3마리의 몬스터를 배치
-        int itemCount = Random.Range(0, 2);    // 각 방에 0~1개의 아이템을 배치
+        int monsterCount = Random.Range(4, 9); // 각 방에 4~9마리의 몬스터를 배치
+        int itemCount = Random.Range(0, 2);    // 각 방에 0~2개의 아이템을 배치
 
         // 몬스터 배치
         for (int i = 0; i < monsterCount; i++)
@@ -170,25 +201,86 @@ public class MapGenerator : MonoBehaviour
     //}
     private void GenerateLoad(Node tree)
     {
+        // 우선 모든 리프 노드를 가져옵니다.
         List<Node> leafNodes = new List<Node>();
         GetLeafNodes(tree, leafNodes);
 
+        // 모든 방을 최소한의 연결로 연결합니다.
         for (int i = 0; i < leafNodes.Count - 1; i++)
         {
-            Vector2Int startRoomCenter = leafNodes[i].center;
-            Vector2Int endRoomCenter = leafNodes[i + 1].center;
+            ConnectRooms(leafNodes[i], leafNodes[i + 1]);
+        }
 
-            // 수평 이동
-            for (int x = Mathf.Min(startRoomCenter.x, endRoomCenter.x); x <= Mathf.Max(startRoomCenter.x, endRoomCenter.x); x++)
+        // 추가적인 연결 경로를 생성할 확률을 낮춥니다 (15% 확률로 추가 경로 생성)
+        float additionalPathChance = 0.15f; // 추가적인 경로 생성 확률
+        for (int i = 0; i < leafNodes.Count; i++)
+        {
+            if (Random.value < additionalPathChance)
             {
-                tileMap.SetTile(GetTilePosition(x, startRoomCenter.y), roomTile);
-            }
+                Node roomA = leafNodes[Random.Range(0, leafNodes.Count)];
+                Node roomB = leafNodes[Random.Range(0, leafNodes.Count)];
 
-            // 수직 이동
-            for (int y = Mathf.Min(startRoomCenter.y, endRoomCenter.y); y <= Mathf.Max(startRoomCenter.y, endRoomCenter.y); y++)
-            {
-                tileMap.SetTile(GetTilePosition(endRoomCenter.x, y), roomTile);
+                if (roomA != roomB && !AreRoomsConnected(roomA, roomB))
+                {
+                    ConnectRooms(roomA, roomB);
+                }
             }
+        }
+    }
+    private void ConnectRooms(Node roomA, Node roomB)
+    {
+        Vector2Int pointA = GetRandomPointInRoom(roomA.roomRect);
+        Vector2Int pointB = GetRandomPointInRoom(roomB.roomRect);
+
+        // 수평 또는 수직 이동을 무작위로 선택하여 연결합니다.
+        if (Random.value > 0.5f)
+        {
+            // 수평 이동 후 수직 이동
+            for (int x = Mathf.Min(pointA.x, pointB.x); x <= Mathf.Max(pointA.x, pointB.x); x++)
+            {
+                tileMap.SetTile(GetTilePosition(x, pointA.y), roomTile);
+            }
+            for (int y = Mathf.Min(pointA.y, pointB.y); y <= Mathf.Max(pointA.y, pointB.y); y++)
+            {
+                tileMap.SetTile(GetTilePosition(pointB.x, y), roomTile);
+            }
+        }
+        else
+        {
+            // 수직 이동 후 수평 이동
+            for (int y = Mathf.Min(pointA.y, pointB.y); y <= Mathf.Max(pointA.y, pointB.y); y++)
+            {
+                tileMap.SetTile(GetTilePosition(pointA.x, y), roomTile);
+            }
+            for (int x = Mathf.Min(pointA.x, pointB.x); x <= Mathf.Max(pointA.x, pointB.x); x++)
+            {
+                tileMap.SetTile(GetTilePosition(x, pointB.y), roomTile);
+            }
+        }
+    }
+    private bool AreRoomsConnected(Node roomA, Node roomB)
+    {
+        // 특정 방들이 이미 연결되었는지 여부를 확인하는 로직이 필요합니다.
+        // 이 예시에서는 단순하게 임의의 방식으로 연결 여부를 체크하는 부분을 생략했습니다.
+        return false; // 기본적으로 false 반환
+    }
+    private Vector2Int GetRandomPointInRoom(RectInt roomRect)
+    {
+        // 방 내부의 임의의 위치를 반환합니다.
+        int x = Random.Range(roomRect.x + 1, roomRect.xMax - 1);
+        int y = Random.Range(roomRect.y + 1, roomRect.yMax - 1);
+        return new Vector2Int(x, y);
+    }
+
+    private void ShuffleList<T>(List<T> list)
+    {
+        // Fisher-Yates Shuffle을 이용해 리스트를 무작위로 섞습니다.
+        for (int i = 0; i < list.Count; i++)
+        {
+            T temp = list[i];
+            int randomIndex = Random.Range(i, list.Count);
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
         }
     }
 

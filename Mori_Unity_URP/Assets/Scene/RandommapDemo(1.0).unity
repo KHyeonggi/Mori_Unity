@@ -6635,8 +6635,14 @@ PrefabInstance:
     - target: {fileID: 5829668532230298935, guid: 2d49c48baa037e24d98dbf5334add495,
         type: 3}
       propertyPath: mapSize.x
-      value: 64
+      value: 128
       objectReference: {fileID: 0}
+    - target: {fileID: 5829668532230298935, guid: 2d49c48baa037e24d98dbf5334add495,
+        type: 3}
+      propertyPath: bossPrefab
+      value: 
+      objectReference: {fileID: 3375783181104989693, guid: 1a1d2d31d94b5d14e9d8b334026a9ecb,
+        type: 3}
     - target: {fileID: 5829668532230298935, guid: 2d49c48baa037e24d98dbf5334add495,
         type: 3}
       propertyPath: maximumDepth
@@ -6651,7 +6657,7 @@ PrefabInstance:
     - target: {fileID: 5829668532230298935, guid: 2d49c48baa037e24d98dbf5334add495,
         type: 3}
       propertyPath: maximumDivideRate
-      value: 0.6
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5829668532230298935, guid: 2d49c48baa037e24d98dbf5334add495,
         type: 3}
@@ -6661,7 +6667,7 @@ PrefabInstance:
     - target: {fileID: 5829668532230298935, guid: 2d49c48baa037e24d98dbf5334add495,
         type: 3}
       propertyPath: minimumDivideRate
-      value: 0.4
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5829668532230298935, guid: 2d49c48baa037e24d98dbf5334add495,
         type: 3}

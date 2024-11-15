@@ -75,6 +75,12 @@ public class GameManager : MonoBehaviour
         foreach (Enemy enemy in enemies)
         {
             enemy.SetTarget(player.GetComponent<Rigidbody2D>());
+
+        }
+        BossAI[] bosses = FindObjectsOfType<BossAI>();
+        foreach (BossAI boss in bosses)
+        {
+            boss.SetTarget(player.GetComponent<Rigidbody2D>());
         }
     }
 

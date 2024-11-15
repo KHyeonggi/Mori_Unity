@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class BossAI : MonoBehaviour
 {
     public float speed;
-    public float moveDistance;
+    public float moveDistance; // 플레이어를 추적하는 최대 거리
+    public float attackRange;  // 플레이어를 공격할 거리
     public float health;
     public float maxHealth;
     public RuntimeAnimatorController[] animCon;
@@ -37,18 +38,23 @@ public class Enemy : MonoBehaviour
 
         if (target == null)
         {
-            Debug.LogWarning("Target is not assigned for the enemy.");
+            Debug.LogWarning("Target is not assigned for the boss.");
             return;
         }
 
         float distanceToTarget = Vector2.Distance(rigid.position, target.position);
 
-        if (distanceToTarget <= moveDistance)
+        if (distanceToTarget <= attackRange)
         {
-            Vector2 dirVec = target.position - rigid.position; // 위치 차이 계산
-            Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime; // 다음 프레임에서 이동할 벡터 계산
-            rigid.MovePosition(rigid.position + nextVec); // 새로운 위치로 이동
+            // 공격 모션 실행
+            Attack();
         }
+        else if (distanceToTarget <= moveDistance)
+        {
+            // 플레이어 추적
+            MoveTowardsPlayer();
+        }
+
         rigid.velocity = Vector2.zero;
     }
 
@@ -64,13 +70,14 @@ public class Enemy : MonoBehaviour
     {
         if (GameManager.instance != null && GameManager.instance.player != null)
         {
-            target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+            SetTarget(GameManager.instance.player.GetComponent<Rigidbody2D>());
+
         }
         else
         {
             Debug.LogWarning("Player target not found for the enemy.");
         }
-
+        
         isLive = true;
         health = maxHealth;
         coll.enabled = true;
@@ -79,11 +86,12 @@ public class Enemy : MonoBehaviour
         anim.SetBool("Dead", false);
     }
 
-    public void Init(SpawnData data)
+    public void Init(SpawnDataBoss data)
     {
         anim.runtimeAnimatorController = animCon[data.spritType];
         speed = data.speed;
         moveDistance = data.moveDistance;
+        attackRange = data.attackRange; // 공격 범위 설정
         maxHealth = data.health;
         health = data.health;
     }
@@ -133,31 +141,37 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public delegate void EnemyDeathHandler(GameObject enemy);
-    public event EnemyDeathHandler OnEnemyDeath;
+    public delegate void BossDeathHandler(GameObject boss);
+    public event BossDeathHandler OnBossDeath;
 
     void Dead()
     {
-        if (OnEnemyDeath != null)
+        if (OnBossDeath != null)
         {
-            OnEnemyDeath(gameObject);  // 이벤트 호출
+            OnBossDeath(gameObject);  // 이벤트 호출
         }
 
-        gameObject.SetActive(false);  // 적 비활성화
-    }
-
-    // 적이 파괴되거나 사망 시 호출될 수 있는 메서드
-    void OnDestroy()
-    {
-        if (OnEnemyDeath != null)
-        {
-            OnEnemyDeath(gameObject);  // 적 파괴 시 이벤트 호출
-        }
+        gameObject.SetActive(false);  // 보스 비활성화
     }
 
     public void SetTarget(Rigidbody2D playerTarget)
     {
         target = playerTarget;
-        Debug.Log($"Target set for enemy: {target}");
+        Debug.Log($"Target set for BossAI: {target}");
+    }
+
+    // 플레이어를 공격하는 메서드
+    void Attack()
+    {
+        anim.SetTrigger("Attack");
+        Debug.Log("Boss is attacking the player!");
+        // 공격 로직 추가 가능 (예: 플레이어에게 데미지)
+    }
+
+    // 플레이어를 향해 이동하는 메서드
+    void MoveTowardsPlayer()
+    {
+        Vector2 direction = (target.position - rigid.position).normalized;
+        rigid.MovePosition(rigid.position + direction * speed * Time.fixedDeltaTime);
     }
 }
