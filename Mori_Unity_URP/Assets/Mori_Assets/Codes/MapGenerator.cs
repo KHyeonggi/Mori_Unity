@@ -19,9 +19,9 @@ public class MapGenerator : MonoBehaviour
 
     [SerializeField] private GameObject[] monsterPrefabs; // 몬스터 프리팹 배열
     [SerializeField] private GameObject[] itemPrefabs;    // 아이템 프리팹 배열
-
-    [SerializeField] private GameObject playerPrefab; // 플레이어 프리팹
     [SerializeField] private GameObject bossPrefab;
+    [SerializeField] private GameObject playerPrefab; // 플레이어 프리팹
+    
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class MapGenerator : MonoBehaviour
         FillWall(); // 바깥과 방이 만나는 지점을 벽으로 칠해주는 함수
 
         SpawnPlayer(root); //**플레이어 스폰 함수 호출**
-        SpawnBoss(bossRoomNode); // 보스 스폰
+        //SpawnBoss(bossRoomNode); // 보스 스폰
 
         FillWall(); // 바깥과 방이 만나는 지점을 벽으로 칠해주는 함수
     }
@@ -92,11 +92,9 @@ public class MapGenerator : MonoBehaviour
             tree.roomRect = new RectInt(x, y, width, height);
             FillRoom(tree.roomRect);
 
-            // **몬스터와 아이템 배치 추가**
-            if (tree != bossRoomNode)
-            {
-                PlaceContentInRoom(tree.roomRect);
-            }
+            // 방에 콘텐츠 배치 (몬스터, 아이템, 보스 등)
+            bool isBossRoom = tree == bossRoomNode; // 보스 방인지 확인
+            PlaceContentInRoom(tree.roomRect, isBossRoom);
         }
         else
         {
@@ -120,45 +118,79 @@ public class MapGenerator : MonoBehaviour
         return bossRoomNode;
     }
 
-    private void SpawnBoss(Node bossRoomNode)
+    //private void SpawnBoss(Node bossRoomNode)
+    //{
+    //    if (bossRoomNode != null)
+    //{
+    //    Vector3 spawnPosition = GetRandomPositionInRoom(bossRoomNode.roomRect);
+    //    GameObject boss = Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+    //    Debug.Log($"Boss spawned at {spawnPosition} with name: {boss.name}");
+    //}
+    //else
+    //{
+    //    Debug.LogWarning("Boss room node is null. Boss not spawned.");
+    //}
+    //}
+    private void PlaceContentInRoom(RectInt roomRect, bool isBossRoom)
     {
-        if (bossRoomNode != null)
+        if (isBossRoom)
         {
-            Vector3 spawnPosition = GetRandomPositionInRoom(bossRoomNode.roomRect);
-            Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+            // 보스 방인 경우 보스 생성
+            Vector3 spawnPosition = GetRandomPositionInRoom(roomRect);
+            GameObject boss = Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log($"Boss spawned at {spawnPosition} in the boss room.");
         }
-    }
-    private void PlaceContentInRoom(RectInt roomRect)
-    {
-        // 몬스터와 아이템의 개수를 랜덤하게 결정합니다.
-        int monsterCount = Random.Range(4, 9); // 각 방에 4~9마리의 몬스터를 배치
-        int itemCount = Random.Range(0, 2);    // 각 방에 0~2개의 아이템을 배치
-
-        // 몬스터 배치
-        for (int i = 0; i < monsterCount; i++)
+        else
         {
-            // 몬스터 프리팹 중 하나를 랜덤하게 선택
-            GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Length)];
+            // 몬스터와 아이템의 개수를 랜덤하게 결정
+            int monsterCount = Random.Range(4, 9);
+            int itemCount = Random.Range(0, 2);
 
-            // 방 안의 랜덤한 위치를 선택
-            Vector3 position = GetRandomPositionInRoom(roomRect);
+            // 몬스터 배치
+            for (int i = 0; i < monsterCount; i++)
+            {
+                GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Length)];
+                Vector3 position = GetRandomPositionInRoom(roomRect);
+                Instantiate(monsterPrefab, position, Quaternion.identity);
+            }
 
-            // 몬스터 생성
-            Instantiate(monsterPrefab, position, Quaternion.identity);
+            // 아이템 배치
+            for (int i = 0; i < itemCount; i++)
+            {
+                GameObject itemPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+                Vector3 position = GetRandomPositionInRoom(roomRect);
+                Instantiate(itemPrefab, position, Quaternion.identity);
+            }
         }
+        //// 몬스터와 아이템의 개수를 랜덤하게 결정합니다.
+        //int monsterCount = Random.Range(4, 9); // 각 방에 4~9마리의 몬스터를 배치
+        //int itemCount = Random.Range(0, 2);    // 각 방에 0~2개의 아이템을 배치
 
-        // 아이템 배치
-        for (int i = 0; i < itemCount; i++)
-        {
-            // 아이템 프리팹 중 하나를 랜덤하게 선택
-            GameObject itemPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+        //// 몬스터 배치
+        //for (int i = 0; i < monsterCount; i++)
+        //{
+        //    // 몬스터 프리팹 중 하나를 랜덤하게 선택
+        //    GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Length)];
 
-            // 방 안의 랜덤한 위치를 선택
-            Vector3 position = GetRandomPositionInRoom(roomRect);
+        //    // 방 안의 랜덤한 위치를 선택
+        //    Vector3 position = GetRandomPositionInRoom(roomRect);
 
-            // 아이템 생성
-            Instantiate(itemPrefab, position, Quaternion.identity);
-        }
+        //    // 몬스터 생성
+        //    Instantiate(monsterPrefab, position, Quaternion.identity);
+        //}
+
+        //// 아이템 배치
+        //for (int i = 0; i < itemCount; i++)
+        //{
+        //    // 아이템 프리팹 중 하나를 랜덤하게 선택
+        //    GameObject itemPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+
+        //    // 방 안의 랜덤한 위치를 선택
+        //    Vector3 position = GetRandomPositionInRoom(roomRect);
+
+        //    // 아이템 생성
+        //    Instantiate(itemPrefab, position, Quaternion.identity);
+        //}
     }
 
     private Vector3 GetRandomPositionInRoom(RectInt roomRect)
@@ -175,30 +207,6 @@ public class MapGenerator : MonoBehaviour
 
         return worldPosition;
     }
-
-    //private void GenerateLoad(Node tree)
-    //{
-    //    if (tree.leftNode == null || tree.rightNode == null)
-    //        return;
-
-    //    Vector2Int leftCenter = tree.leftNode.center;
-    //    Vector2Int rightCenter = tree.rightNode.center;
-
-    //    // 수평 이동
-    //    for (int x = Mathf.Min(leftCenter.x, rightCenter.x); x <= Mathf.Max(leftCenter.x, rightCenter.x); x++)
-    //    {
-    //        tileMap.SetTile(GetTilePosition(x, leftCenter.y), roomTile);
-    //    }
-
-    //    // 수직 이동
-    //    for (int y = Mathf.Min(leftCenter.y, rightCenter.y); y <= Mathf.Max(leftCenter.y, rightCenter.y); y++)
-    //    {
-    //        tileMap.SetTile(GetTilePosition(rightCenter.x, y), roomTile);
-    //    }
-
-    //    GenerateLoad(tree.leftNode);
-    //    GenerateLoad(tree.rightNode);
-    //}
     private void GenerateLoad(Node tree)
     {
         // 우선 모든 리프 노드를 가져옵니다.

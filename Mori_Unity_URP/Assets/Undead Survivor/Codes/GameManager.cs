@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public int talkIndex;
 
     public bool gameStarted = false; // 게임이 시작되었는지 여부를 나타내는 변수 추가
+
     void Awake()
     {
         if (instance == null)
@@ -70,17 +71,29 @@ public class GameManager : MonoBehaviour
     {
         Player = player;
 
+        Debug.Log($"SetPlayer called. Player: {player.name}");
+
         // 씬 내 모든 Enemy를 찾아 target을 설정합니다.
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         foreach (Enemy enemy in enemies)
         {
             enemy.SetTarget(player.GetComponent<Rigidbody2D>());
-
+            Debug.Log($"Enemy target set: {enemy.name} -> {player.name}");
         }
+
+        // 씬 내 모든 BossAI를 찾아 target을 설정합니다.
         BossAI[] bosses = FindObjectsOfType<BossAI>();
-        foreach (BossAI boss in bosses)
+        if (bosses.Length == 0)
         {
-            boss.SetTarget(player.GetComponent<Rigidbody2D>());
+            Debug.LogWarning("No BossAI instances found in the scene.");
+        }
+        else
+        {
+            foreach (BossAI boss in bosses)
+            {
+                boss.SetTarget(player.GetComponent<Rigidbody2D>());
+                Debug.Log($"Boss target set: {boss.name} -> {player.name}");
+            }
         }
     }
 

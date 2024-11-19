@@ -186,8 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   moveDistance: 10
-  attackRange: 3
+  attackRange: 1
   health: 100
   maxHealth: 100
   animCon: []
-  target: {fileID: 3022375611325973517, guid: f8f3ac39bc98b374498be06805addc13, type: 3}
+  target: {fileID: 0}

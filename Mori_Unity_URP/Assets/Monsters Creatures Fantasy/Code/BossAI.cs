@@ -71,13 +71,12 @@ public class BossAI : MonoBehaviour
         if (GameManager.instance != null && GameManager.instance.player != null)
         {
             SetTarget(GameManager.instance.player.GetComponent<Rigidbody2D>());
-
         }
         else
         {
-            Debug.LogWarning("Player target not found for the enemy.");
+            Debug.LogWarning("Player target not found for the Boss. Waiting for player to be set.");
         }
-        
+
         isLive = true;
         health = maxHealth;
         coll.enabled = true;
@@ -156,8 +155,14 @@ public class BossAI : MonoBehaviour
 
     public void SetTarget(Rigidbody2D playerTarget)
     {
+        if (playerTarget == null)
+        {
+            Debug.LogWarning($"SetTarget called but playerTarget is null in {name}");
+            return;
+        }
+
         target = playerTarget;
-        Debug.Log($"Target set for BossAI: {target}");
+        Debug.Log($"BossAI target set: {name} -> {target.name}");
     }
 
     // 플레이어를 공격하는 메서드

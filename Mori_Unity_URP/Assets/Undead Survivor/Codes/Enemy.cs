@@ -158,6 +158,6 @@ public class Enemy : MonoBehaviour
     public void SetTarget(Rigidbody2D playerTarget)
     {
         target = playerTarget;
-        Debug.Log($"Target set for enemy: {target}");
+        Debug.Log($"Enemy target set: {name} -> {target.name}");
     }
 }

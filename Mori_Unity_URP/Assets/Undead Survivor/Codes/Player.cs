@@ -93,10 +93,9 @@ public class Player : MonoBehaviour
     {
         if (!isLive) return; // 이미 죽은 경우 로직 실행하지 않음
 
-        if (collision.collider.CompareTag("Enemy"))
+        if (collision.collider.CompareTag("Enemy") || collision.collider.CompareTag("BossAI"))
         {
             GameManager.instance.health -= Time.deltaTime * 10; // 닿을 때마다 10데미지
-            Debug.Log("Player health: " + GameManager.instance.health);
             if (GameManager.instance.health <= 0)
             {
                 if (isLive) // 처음 죽었을 때만 실행
