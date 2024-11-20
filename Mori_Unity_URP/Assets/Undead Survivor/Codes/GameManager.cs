@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
 
     public bool gameStarted = false; // 게임이 시작되었는지 여부를 나타내는 변수 추가
 
+    public GameObject clearScreen;
     void Awake()
     {
         if (instance == null)
@@ -196,5 +197,15 @@ public class GameManager : MonoBehaviour
         isAction = true;
         talkIndex++;
 
+    }
+    public void BossDefeated()
+    {
+        if (isLive) // 게임이 여전히 진행 중일 때만 처리
+        {
+            isLive = false; // 게임 상태를 비활성화하여 더 이상 플레이어가 움직이지 않도록 함
+            clearScreen.SetActive(true); // 클리어 화면 활성화
+            Time.timeScale = 0; // 게임 일시 정지 (선택 사항)
+            Debug.Log("Boss defeated! Game Clear!");
+        }
     }
 }

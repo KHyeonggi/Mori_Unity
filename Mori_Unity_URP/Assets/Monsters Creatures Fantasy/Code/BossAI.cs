@@ -149,7 +149,7 @@ public class BossAI : MonoBehaviour
         {
             OnBossDeath(gameObject);  // 이벤트 호출
         }
-
+        GameManager.instance.BossDefeated(); // 보스가 죽었음을 GameManager에 알림
         gameObject.SetActive(false);  // 보스 비활성화
     }
 
@@ -179,4 +179,6 @@ public class BossAI : MonoBehaviour
         Vector2 direction = (target.position - rigid.position).normalized;
         rigid.MovePosition(rigid.position + direction * speed * Time.fixedDeltaTime);
     }
+    
+
 }
