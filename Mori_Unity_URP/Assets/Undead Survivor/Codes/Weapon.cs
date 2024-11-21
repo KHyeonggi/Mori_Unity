@@ -18,6 +18,13 @@ public class Weapon : MonoBehaviour
     private Quaternion midRotation; // 중간 목표 회전값
     private Quaternion endRotation; // 최종 목표 회전값
 
+    private Hand hand; // Hand 컴포넌트 참조
+
+    void Awake()
+    {
+        hand = GetComponentInParent<Hand>(); // 부모 오브젝트에서 Hand 컴포넌트 가져오기
+    }
+
     void Start()
     {
         Init(); // 초기 설정 실행
@@ -25,24 +32,20 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        // 마우스 위치를 기준으로 오브젝트 회전
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector2 direction = new Vector2(
-            mousePosition.x - transform.position.x,
-            mousePosition.y - transform.position.y
-        );
+        // Hand 스크립트의 방향 정보를 가져옴
+        bool isReverse = hand.spriter.flipX;
 
-        transform.up = direction;
+        // 기본 각도 설정 (Hand 스크립트의 방향에 따라 조정)
+        float initialAngle = isReverse ? -35f : 35f;
 
         // 마우스 왼쪽 버튼을 클릭하고, 현재 휘두르지 않으며, 원래 자리로 돌아가지 않는 경우
         if (Input.GetMouseButtonDown(0) && !isSwinging && !isReturning)
         {
             isSwinging = true; // 휘두르기 시작
             swingTimer = 0f; // 타이머 초기화
-            startRotation = transform.rotation; // 현재 회전값을 시작 회전값으로 설정
-            midRotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, -90)); // 90도 회전을 목표로 설정
-            endRotation = startRotation; // 최종 목표 회전값을 시작 회전값으로 설정
+            startRotation = transform.localRotation; // 현재 로컬 회전값을 시작 회전값으로 설정
+            midRotation = Quaternion.Euler(0, 0, 0); // 중간 목표 회전값 (각도 0도)
+            endRotation = Quaternion.Euler(0, 0, initialAngle); // 최종 목표 회전값
         }
 
         // 휘두르는 동작 중
@@ -50,7 +53,7 @@ public class Weapon : MonoBehaviour
         {
             swingTimer += Time.deltaTime; // 타이머 업데이트
             float fraction = swingTimer / swingDuration; // 진행 비율 계산
-            transform.rotation = Quaternion.Lerp(startRotation, midRotation, fraction); // 시작 회전값에서 중간 목표 회전값으로 부드럽게 회전
+            transform.localRotation = Quaternion.Lerp(startRotation, midRotation, fraction); // 시작 회전값에서 중간 목표 회전값으로 부드럽게 회전
 
             // 휘두르는 동작이 완료되면
             if (swingTimer >= swingDuration)
@@ -66,7 +69,7 @@ public class Weapon : MonoBehaviour
         {
             swingTimer += Time.deltaTime; // 타이머 업데이트
             float fraction = swingTimer / swingDuration; // 진행 비율 계산
-            transform.rotation = Quaternion.Lerp(midRotation, endRotation, fraction); // 중간 목표 회전값에서 최종 목표 회전값으로 부드럽게 회전
+            transform.localRotation = Quaternion.Lerp(midRotation, endRotation, fraction); // 중간 목표 회전값에서 최종 목표 회전값으로 부드럽게 회전
 
             // 원래 자리로 돌아가기가 완료되면
             if (swingTimer >= swingDuration)
@@ -107,4 +110,3 @@ public class Weapon : MonoBehaviour
         }
     }
 }
-
