@@ -81,6 +81,16 @@ public class GameManager : MonoBehaviour
         if(exp == nextExp[level]) { //경험치가 현제 레벨 최대 경험치와 같다면
             level++; //레벨 1증가
             exp = 0; //경험치 초기화
+            IncreaseBulletDamage();
+        }
+    }
+    void IncreaseBulletDamage()
+    {
+        Bullet bulletComponent = player.GetComponentInChildren<Bullet>();
+        if (bulletComponent != null)
+        {
+            bulletComponent.damage += 5;
+            Debug.Log("Bullet damage increased by 5. New damage: " + bulletComponent.damage);
         }
     }
 
