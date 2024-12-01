@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public int[] nextExp = { 10, 30, 70, 150, 310 }; //경험치 최대량
     public float health;
     public float maxHealth = 100;
+    public int State = 0;
 
     public TalkManager talkManager;
     public QuestManager questManager;
@@ -81,18 +82,10 @@ public class GameManager : MonoBehaviour
         if(exp == nextExp[level]) { //경험치가 현제 레벨 최대 경험치와 같다면
             level++; //레벨 1증가
             exp = 0; //경험치 초기화
-            IncreaseBulletDamage();
+            State += 3;
         }
     }
-    void IncreaseBulletDamage()
-    {
-        Bullet bulletComponent = player.GetComponentInChildren<Bullet>();
-        if (bulletComponent != null)
-        {
-            bulletComponent.damage += 5;
-            Debug.Log("Bullet damage increased by 5. New damage: " + bulletComponent.damage);
-        }
-    }
+    
 
     public void Stop()
     {
