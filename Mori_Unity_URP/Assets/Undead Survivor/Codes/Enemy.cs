@@ -12,13 +12,13 @@ public class Enemy : MonoBehaviour
     public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
 
-    bool isLive;
+    public bool isLive;
 
-    Rigidbody2D rigid;
-    Collider2D coll;
-    Animator anim;
-    SpriteRenderer spriter;
-    WaitForFixedUpdate wait;
+    public Rigidbody2D rigid;
+    public Collider2D coll;
+    public Animator anim;
+    public SpriteRenderer spriter;
+    public WaitForFixedUpdate wait;
 
     void Awake()
     {
@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
 
         spriter.flipX = target.position.x < rigid.position.x;
     }
-    void OnEnable()
+    public void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         isLive = true;
@@ -94,7 +94,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    IEnumerator KnockBack()
+    public IEnumerator KnockBack()
     {
         yield return wait;
 

@@ -35,7 +35,7 @@ public class increaseState : MonoBehaviour
 
     public void IncreaseBulletDamage()
     {
-        Bullet bulletComponent = player.GetComponentInChildren<Bullet>();
+        Weapon bulletComponent = player.GetComponentInChildren<Weapon>();
         if (GameManager.instance.State > 0)
         {
             if (bulletComponent != null)

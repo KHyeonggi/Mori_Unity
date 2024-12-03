@@ -45,11 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 179e85be84ff6dd4291c0fb6741b4428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  prefabid: 1
-  damage: 1
-  count: 1
-  speed: 0
+  bulletPrefab: {fileID: 4571209072605684421, guid: c57b5d0bfa9ecbd4cbb0a983b5e62a4b,
+    type: 3}
+  bulletSpeed: 10
+  bulletRange: 5
+  damage: 10
+  fireRate: 0.5
 --- !u!1001 &6444819390638892336
 PrefabInstance:
   m_ObjectHideFlags: 0

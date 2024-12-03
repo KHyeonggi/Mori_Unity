@@ -295,37 +295,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Weapon : MonoBehaviour
 {
-    public int id; // 무기의 고유 ID
-    public int prefabId; // 발사체의 프리팹 ID
-    public float damage; // 무기 데미지
-    public int count; // 발사체 수
-    public float speed; // 무기 속도 (발사 간격)
-    public float range = 5f; // 발사체의 최대 거리
+    public GameObject bulletPrefab; // 발사체 프리팹
+    public float bulletSpeed = 10f; // 발사체 속도
+    public float bulletRange = 5f; // 발사체의 최대 이동 거리
+    public float damage = 10f; // 무기 데미지
+    public float fireRate = 0.5f; // 발사 간격
 
-    float timer; // 발사 타이머
-    Player player; // 플레이어 객체 참조
+    private float fireTimer; // 발사 타이머
 
-    private void Awake()
+    private void Update()
     {
-        // GameManager에서 플레이어 객체 참조
-        player = GameManager.instance.player;
-    }
-
-    void Update()
-    {
-        // 게임 오버 상태에서는 무기 동작 중지
-        if (!GameManager.instance.isLive)
-            return;
-
-        timer += Time.deltaTime;
+        // 타이머 업데이트
+        fireTimer += Time.deltaTime;
 
         // 마우스 클릭 시 발사
-        if (Input.GetMouseButtonDown(0) && timer > speed)
+        if (Input.GetMouseButtonDown(0) && fireTimer > fireRate)
         {
-            timer = 0f;
+            fireTimer = 0f;
             Fire();
         }
     }
@@ -333,18 +321,18 @@ public class Weapon : MonoBehaviour
     void Fire()
     {
         // 마우스 위치 가져오기
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0; // 2D 환경에서 Z축 제거
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0; // 2D 환경에서 Z축 제거
 
         // 발사 방향 계산
-        Vector3 dir = (mousePos - transform.position).normalized;
+        Vector3 direction = (mousePosition - transform.position).normalized;
 
         // 발사체 생성 및 초기화
-        Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
-        bullet.position = transform.position;
-        bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-
-        // 발사체 초기화 (최대 거리 설정 포함)
-        // bullet.GetComponent<Bullet>().Init(damage, count, dir, range);
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        Bullet bulletComponent = bullet.GetComponent<Bullet>();
+        if (bulletComponent != null)
+        {
+            bulletComponent.Init(damage, direction, bulletSpeed, bulletRange);
+        }
     }
 }
