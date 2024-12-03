@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 781395139441709939}
   - component: {fileID: 9078828228094299419}
   - component: {fileID: 3665408204193091636}
+  - component: {fileID: 5624870097314947687}
   m_Layer: 0
   m_Name: Bullet 10
   m_TagString: Bullet
@@ -98,4 +99,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  per: 0
+  speed: 0
+--- !u!68 &5624870097314947687
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571209072605684421}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.2041105, y: -0.062579155}
+  - {x: 0.16926812, y: 0.5260416}
+  - {x: -0.013494708, y: 1.2402618}
+  - {x: -0.57971454, y: 1.7978811}
+  - {x: -0.61079776, y: 2.0750413}
+  - {x: -0.14039534, y: 2.1619785}
+  - {x: 0.235846, y: 1.959017}
+  - {x: 0.5284817, y: 1.1405007}
+  - {x: 0.6507268, y: 0.13767338}
+  - {x: 0.5595881, y: -0.9615936}
+  - {x: 0.30908376, y: -1.81627}
+  - {x: -0.112167105, y: -2.1384392}
+  - {x: -0.499455, y: -2.1226296}
+  - {x: -0.62020415, y: -1.7776166}
+  - {x: -0.27247745, y: -1.6265273}
+  - {x: 0.08123051, y: -1.0556602}
+  - {x: 0.17056507, y: -0.6056387}
+  - {x: 0.20370948, y: -0.012515783}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0

@@ -54,7 +54,7 @@ public class State : MonoBehaviour
 
     void UpdateAttackPowerText()
     {
-        Bullet bulletComponent = player.GetComponentInChildren<Bullet>();
+        Weapon bulletComponent = player.GetComponentInChildren<Weapon>();
         if (bulletComponent != null)
         {
             myText.text = "°ø°Ý·Â: " + bulletComponent.damage;
