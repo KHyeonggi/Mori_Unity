@@ -27,34 +27,80 @@ public class GameManager : MonoBehaviour
 
 
     [Header("# Player Info")]
-    public int level; //·¹º§
-    public int exp; //°æÇèÄ¡
-    public int[] nextExp = { 10, 30, 70, 150, 310 }; //°æÇèÄ¡ ÃÖ´ë·®
+    public int level; //ï¿½ï¿½ï¿½ï¿½
+    public int exp; //ï¿½ï¿½ï¿½ï¿½Ä¡
+    public int[] nextExp = { 10, 30, 70, 150, 310 }; //ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½Ö´ë·®
     public float health;
     public float maxHealth = 100;
     public int State = 0;
 
     public TalkManager talkManager;
     public QuestManager questManager;
-    public GameObject talkPanel;//´ëÈ­Ã¢
+    public GameObject talkPanel;//ï¿½ï¿½È­Ã¢
     public Text talkText;
     public GameObject scanObject;
     public bool isAction;
     public int talkIndex;
 
     private Coroutine typingCoroutine;
-    private bool isTyping = false; // Å¸ÀÌÇÎ ÁßÀÎÁö ¿©ºÎ
+    private bool isTyping = false; // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public bool gameStarted = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
+    public GameObject clearScreen;
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            Debug.Log("GameManager instance initialized."); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±×·ï¿½ ï¿½Ê±ï¿½È­ È®ï¿½ï¿½
+        }
+        else
+        {
+            Debug.LogWarning("Multiple GameManager instances detected!");
+        }
     }
 
+    public void StartGame()
+    {
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+        gameStarted = true;
+        // UI ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+    }
     void Start()
     {
         health = maxHealth;
-        Player.gameObject.SetActive(false);
+        //Player.gameObject.SetActive(false);
     }
+    public void SetPlayer(GameObject player)
+    {
+        Player = player;
+
+        Debug.Log($"SetPlayer called. Player: {player.name}");
+
+        // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ Enemyï¿½ï¿½ Ã£ï¿½ï¿½ targetï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.SetTarget(player.GetComponent<Rigidbody2D>());
+            Debug.Log($"Enemy target set: {enemy.name} -> {player.name}");
+        }
+
+        // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ BossAIï¿½ï¿½ Ã£ï¿½ï¿½ targetï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+        BossAI[] bosses = FindObjectsOfType<BossAI>();
+        if (bosses.Length == 0)
+        {
+            Debug.LogWarning("No BossAI instances found in the scene.");
+        }
+        else
+        {
+            foreach (BossAI boss in bosses)
+            {
+                boss.SetTarget(player.GetComponent<Rigidbody2D>());
+                Debug.Log($"Boss target set: {boss.name} -> {player.name}");
+            }
+        }
+    }
+
 
     public GameObject pauseMenuCanvas;
     void Update()
@@ -66,11 +112,11 @@ public class GameManager : MonoBehaviour
             gameTime = maxGameTime;
         }
 
-        if (talkPanel.activeSelf == true)//´ëÈ­Ã¢ ¿­¸®¸é °ÔÀÓ ¸ØÃã
+        if (talkPanel.activeSelf == true)//ï¿½ï¿½È­Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             Stop();
         }
-        else if (talkPanel.activeSelf == false)//´ëÈ­Ã¢ ´ÝÈ÷¸é °ÔÀÓ ÁøÇà
+        else if (talkPanel.activeSelf == false)//ï¿½ï¿½È­Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             Resume();
         }
@@ -78,41 +124,37 @@ public class GameManager : MonoBehaviour
 
    public void GetExp()
     {
-        exp++;//¸ó½ºÅÍ Ã³Ä¡½Ã °æÇèÄ¡ 1Á¦°ø
-        if(exp == nextExp[level]) { //°æÇèÄ¡°¡ ÇöÁ¦ ·¹º§ ÃÖ´ë °æÇèÄ¡¿Í °°´Ù¸é
-            level++; //·¹º§ 1Áõ°¡
-            exp = 0; //°æÇèÄ¡ ÃÊ±âÈ­
+        exp++;//ï¿½ï¿½ï¿½ï¿½ Ã³Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ 1ï¿½ï¿½ï¿½ï¿½
+        if(exp == nextExp[level]) { //ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½
+            level++; //ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½
+            exp = 0; //ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½Ê±ï¿½È­
             State += 3;
         }
     }
     
-
-    public void Stop()
-    {
-        isLive = false;
-        Time.timeScale = 0;
-    }
 
     public void Resume()
     {
         isLive=true;
         Time.timeScale = 1;
     }
-
-
     public void GameOver()
     {
-        StartCoroutine(GameOverRoutine());
+        if (!isLive) return; // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+        uiResult.SetActive(true); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UI È°ï¿½ï¿½È­
+        Debug.Log("Game Over!"); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+        Stop(); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
-    IEnumerator GameOverRoutine()
+    public void Stop()
     {
+        gameStarted = false;
         isLive = false;
-        yield return new WaitForSeconds(0.2f);
-
-        uiResult.SetActive(true);
-        Stop();
+        Time.timeScale = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß±ï¿½
+        Debug.Log("Game stopped. Time.timeScale: " + Time.timeScale); // Time.timeScale ï¿½ï¿½ È®ï¿½ï¿½
     }
+
 
     public void GameRetry()
     {
@@ -127,7 +169,7 @@ public class GameManager : MonoBehaviour
         string objectName = scanObject.name;
         ObjData objData = scanObject.GetComponent<ObjData>();
 
-        UINameText.text = objectName; // ¿©±â¼­ ÀÌ¸§À» UI¿¡ ¼³Á¤
+        UINameText.text = objectName; // ï¿½ï¿½ï¿½â¼­ ï¿½Ì¸ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Talk(objData.id, objData.isNpc);
         
         talkPanel.SetActive(isAction);
@@ -140,7 +182,7 @@ public class GameManager : MonoBehaviour
 
         if (talkData == null)
         {
-            isAction = false; //´ëÈ­°¡ ³¡³ª¸é ´ëÈ­ Á¾·á
+            isAction = false; //ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
             talkIndex = 0;
             Debug.Log(questManager.CheckQuest(id));
             return;
@@ -148,12 +190,12 @@ public class GameManager : MonoBehaviour
 
         if (isNpc)
         {
-            UINameText.text = npcName; // NPC ÀÌ¸§À» UI¿¡ Ç¥½Ã
+            UINameText.text = npcName; // NPC ï¿½Ì¸ï¿½ï¿½ï¿½ UIï¿½ï¿½ Ç¥ï¿½ï¿½
             talkText.text = talkData;
         }
         else
         {
-            UINameText.text = "¸ð¸®"; // ÇÃ·¹ÀÌ¾îÀÇ ÀÌ¸§ ¼³Á¤
+            UINameText.text = "ï¿½ï¿½"; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
             talkText.text = talkData;
         }
         if (typingCoroutine != null)
@@ -165,22 +207,32 @@ public class GameManager : MonoBehaviour
         isAction = true;
         talkIndex++;
     }
-    // Å¸ÀÌÇÎ È¿°ú ÄÚ·çÆ¾
+    // Å¸ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾
     IEnumerator TypeEffect(string talkData)
     {
-        talkText.text = ""; // ±âÁ¸ ÅØ½ºÆ® ÃÊ±âÈ­
-        isTyping = true; // Å¸ÀÌÇÎ ÁßÀ¸·Î ¼³Á¤
+        talkText.text = ""; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½Ê±ï¿½È­
+        isTyping = true; // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         foreach (char letter in talkData.ToCharArray())
         {
-            talkText.text += letter; // ÇÑ ±ÛÀÚ¾¿ Ãß°¡
-            yield return new WaitForSecondsRealtime(0.02f); // Å¸ÀÌÇÎ ¼Óµµ Á¶Àý
+            talkText.text += letter; // ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¾ï¿½ ï¿½ß°ï¿½
+            yield return new WaitForSecondsRealtime(0.02f); // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
         }
 
-        // Å¸ÀÌÇÎ È¿°ú°¡ ³¡³­ ÈÄ 1ÃÊ ´ë±â
+        // Å¸ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½
         yield return new WaitForSecondsRealtime(1f);
 
-        isTyping = false; // Å¸ÀÌÇÎÀÌ ³¡³µÀ½À» Ç¥½Ã
-        typingCoroutine = null; // ÄÚ·çÆ¾ÀÌ ¿Ï·áµÇ¾úÀ½À» Ç¥½Ã
+        isTyping = false; // Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
+        typingCoroutine = null; // ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
+    }
+    public void BossDefeated()
+    {
+        if (isLive) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+        {
+            isLive = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½Ï¿ï¿½ ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½
+            clearScreen.SetActive(true); // Å¬ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ È°ï¿½ï¿½È­
+            Time.timeScale = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+            Debug.Log("Boss defeated! Game Clear!");
+        }
     }
 }

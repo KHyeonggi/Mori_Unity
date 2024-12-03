@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - Slot
   - FieldItem
+  - BossAI
   layers:
   - Default
   - TransparentFX
