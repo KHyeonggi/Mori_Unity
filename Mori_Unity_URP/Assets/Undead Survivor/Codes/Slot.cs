@@ -11,7 +11,6 @@ public class Slot : MonoBehaviour, IPointerUpHandler, IPointerClickHandler, IPoi
     public Image itemIcon;
     public ItemType itemType;
     bool isUse;
-    public changeWeapone weapon;
     public GameObject hand;
     public GameObject image;
 
