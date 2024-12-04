@@ -71,15 +71,7 @@ public class TalkManager : MonoBehaviour
 
     public string GetTalk(int id, int talkIndex)
     {
-
-        if (!talkData.ContainsKey(id))
-        {
-            if (!talkData.ContainsKey(id - id % 10))
-                return GetTalk (id - id % 100, talkIndex); // 첫 번째 대화 가져오기
-            else
-                return GetTalk(id - id % 10, talkIndex);// 첫 번째 퀘스트 대화 가져오기
-
-        }
+        Debug.Log("GetTalk - id: " + id + ", talkIndex: " + talkIndex); 
         if (!talkData.ContainsKey(id)) 
         {
             if(!talkData.ContainsKey(id - id % 10)){
@@ -144,11 +136,12 @@ public class TalkManager : MonoBehaviour
         return "모리"; // ID에 해당하는 이름이 없으면 기본 이름 반환
     }
 
-
+    public Action<string, string> OnTalkUpdate;
     public void StartDialogue(int id, int talkIndex)
     {
         string talk = GetTalk(id, talkIndex);
         string name = GetName(id, talkIndex); // 이름 가져오기
+        OnTalkUpdate?.Invoke(name, talk);
 
         if (talk != null)
         {

@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 nextVec = inputVec*speed*Time.fixedDeltaTime;
+        Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
 
         //Ray
@@ -72,7 +72,8 @@ public class Player : MonoBehaviour
     void LateUpdate()
     {
         anim.SetFloat("Speed", inputVec.magnitude);
-        if (inputVec.x != 0){
+        if (inputVec.x != 0)
+        {
             spriter.flipX = inputVec.x < 0;
         }
 
@@ -88,18 +89,25 @@ public class Player : MonoBehaviour
                 GameManager.instance.GameOver();
             }
 
-            else {
+            else
+            {
                 GameManager.instance.health -= Time.deltaTime * 10;//닿을 때 마다 10데미지
                 //Debug.Log("충돌Stay");
             }
-            
+
         }
         //if (GameManager.instance.isLive == false)//죽어있다면 실행x
         //{
         //    return;
         //}
     }
+    public void TeleportTo(Vector3 destination)
+    {
+        transform.position = destination;
+    }
 }
+
+
 
 internal class PlayerControls
 {

@@ -48,6 +48,8 @@ public class QuestManager : MonoBehaviour
     }
     public string CheckQuest(int id)
     {
+        Debug.Log("CheckQuest - id: " + id + ", questId: " + questId + ", questActionIndex: " + questActionIndex);
+
         if (id == questList[questId].npcId[questActionIndex])
             questActionIndex++;
         
