@@ -37,6 +37,9 @@ public class Bullet : MonoBehaviour
         this.maxDistance = maxDistance; // 최대 거리 설정
         startPosition = transform.position; // 시작 위치 저장
         isInitialized = true; // 초기화 완료
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     void Update()
