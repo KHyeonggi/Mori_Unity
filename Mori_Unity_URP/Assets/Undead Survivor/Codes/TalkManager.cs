@@ -23,16 +23,28 @@ public class TalkManager : MonoBehaviour
     {    
         // 대화 데이터 추가
         talkData.Add(1000, new string[] {"안녕", "물의 정령으로 보이는 뭔가가 있다.", "잘못 건들었다간 물방울처럼 터질 것 같지만 안 터졌다.", "나중에 다시 한번 와서 말을 걸어보자." });
+        talkData.Add(2000, new string[] { "안녕","오른쪽에 있는 물의 정령을 구해줄수있을까?", "불의 정령으로 보이는 뭔가가 있다.", "나중에 다시 한번 와서 말을 걸어보자." });
+        talkData.Add(3000, new string[] {"안녕, 너도 이곳을 모험하러 왔어?"});// 바람의 정령 대화 추가
 
-        talkData.Add(2000, new string[] { "오른쪽에 있는 물의 정령을 구해줘", "불의 정령으로 보이는 뭔가가 있다.", "나중에 다시 한번 와서 말을 걸어보자." });
-
-        //퀘스트 대화
+        // 물의 정령 퀘스트 대화
         talkData.Add(10 + 1000, new string[] { "부탁이 있는데... 들어줄거면 다시 말 걸어줘" });
         talkData.Add(11 + 1000, new string[] { "흩어진 내 힘을 가져와 줄 수 있어? (오른쪽으로 가면 해결할 수 있을꺼같다.)" });
         talkData.Add(20 + 5000, new string[] { "흩어진 물의 힘을 찾았다.", });
-
-
         talkData.Add(21 + 1000, new string[] { "고마워", });
+        
+        // 바람의 정령 퀘스트 대화
+        talkData.Add(40 + 3000, new string[] { "안녕, 너도 이곳을 모험하러 왔어?" }); // 첫 대화
+        talkData.Add(41 + 3000, new string[] { "너도? 나 말고 또 누가 있었어?" }); // 퀘스트 초반
+        talkData.Add(42 + 3000, new string[] { "꽤나 많았지. 지금은 전부 어떻게 됐는지는 모르겠지만..." });
+        talkData.Add(43 + 3000, new string[] { "위기에 직면해 모험을 더 이상 진행하지 못하게 되었을 수도 있고, 아니면 지금도 계속 진행하고 있을 수도 있어." });
+        talkData.Add(44 + 3000, new string[] { "..." });
+        talkData.Add(45 + 3000, new string[] { "너도 이곳을 모험하러 왔다면 한 가지 시험을 내줄게." }); // 퀘스트 시험 설명
+        talkData.Add(46 + 3000, new string[] { "너의 왼쪽을 보면 또 다른 방이 있어. 거기에서 잘 찾아봐." }); // 숨겨진 방 설명
+
+        // 바람의 정령 퀘스트 완료 대화
+        talkData.Add(50 + 3000, new string[] { "찾았구나. 잘했어!" }); // 퀘스트 완료
+        talkData.Add(51 + 3000, new string[] { "이제 네 모험은 더 탄탄해졌을 거야. 행운을 빌어!" });
+
 
         // 대화 상대 이름 추가
         nameData.Add(1000, "물의 정령"); // 물의 정령
@@ -41,6 +53,17 @@ public class TalkManager : MonoBehaviour
         nameData.Add(11 + 1000, "물의 정령"); // 물의 정령
         nameData.Add(20 + 5000, "모리"); // 모리
         nameData.Add(21 + 1000, "물의 정령"); // 물의 정령
+
+        nameData.Add(3000, "바람의 정령"); // 바람의 정령
+        nameData.Add(40 + 3000, "바람의 정령");
+        nameData.Add(41 + 3000, "모리");
+        nameData.Add(42 + 3000, "바람의 정령");
+        nameData.Add(43 + 3000, "바람의 정령");
+        nameData.Add(44 + 3000, "모리");
+        nameData.Add(45 + 3000, "바람의 정령");
+        nameData.Add(46 + 3000, "바람의 정령");
+        nameData.Add(50 + 3000, "바람의 정령");
+        nameData.Add(51 + 3000, "바람의 정령");   
     }
 
 
@@ -57,23 +80,60 @@ public class TalkManager : MonoBehaviour
                 return GetTalk(id - id % 10, talkIndex);// 첫 번째 퀘스트 대화 가져오기
 
         }
+        if (!talkData.ContainsKey(id)) 
+        {
+            if(!talkData.ContainsKey(id - id % 10)){
+                //퀘스트 맨처음 대사도 없을때
+                if (talkIndex == talkData[id - id % 100].Length)
+                    return null;
+                else
+                    return talkData[id - id % 100][talkIndex];
+            }
+            else
+            {   //퀘스트 진행 순서 대사 없을 때 //퀘스트 맨처음 대사 가져옴
+                if (talkIndex == talkData[id - id % 10].Length)
+                    return null;
+                else
+                    return talkData[id - id % 10][talkIndex];
+            }  
+        }
+
         if (talkIndex == talkData[id].Length)
             return null;
         else
             return talkData[id][talkIndex];
     }
+
     public string GetName(int id, int talkIndex)
     {
-        // 대사에 따라 다른 이름을 반환하도록 수정
-        if (id == 2000 && (talkIndex == 1 || talkIndex == 2))
+        // 불의 정령 대화의 경우, 특정 인덱스에서만 모리의 이름 반환
+        if (id == 2000)
         {
-            return "모리"; // 특정 대사에 대해 모리의 이름 반환
+            if (talkIndex == 2 || talkIndex == 3) // 특정 대화 인덱스에 모리의 이름 반환
+            {
+                return "모리";
+            }
+            return "불의 정령";
         }
 
-        // 대사에 따라 다른 이름을 반환하도록 수정
-        if (id == 1000 && (talkIndex == 1 || talkIndex == 2 || talkIndex == 3))
+        // 물의 정령 대화의 경우, 특정 인덱스에서만 모리의 이름 반환
+        if (id == 1000)
         {
-            return "모리"; // 특정 대사에 대해 모리의 이름 반환
+            if (talkIndex == 1 || talkIndex == 2 || talkIndex == 3) // 특정 대화 인덱스에 모리의 이름 반환
+            {
+                return "모리";
+            }
+            return "물의 정령";
+        }
+
+        // 바람의 정령 대화
+        if (id == 3000)
+        {
+            if (talkIndex == 1 || talkIndex == 4) // 특정 대화 인덱스에 모리의 이름 반환
+            {
+                return "모리";
+            }
+            return "바람의 정령";
         }
 
 
