@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 843423f0ee0758d48b5cbf4c9043b607, type: 3}
-  m_Name: SmallHealing
+  m_Script: {fileID: 11500000, guid: 4093bcda30fcf9b438668e36cb7bc8c4, type: 3}
+  m_Name: New Change Weapone
   m_EditorClassIdentifier: 
-  healingPoint: 5
+  Hand: {fileID: 0}
+  WeaponMenu: {fileID: 0}
