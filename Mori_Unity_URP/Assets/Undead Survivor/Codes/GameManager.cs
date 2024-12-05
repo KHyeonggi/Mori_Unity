@@ -80,7 +80,10 @@ public class GameManager : MonoBehaviour
         gameStarted = true; // 게임 시작 상태로 설정
         WeaponeMenu.SetActive(true);
 
+
+        AudioManager.instance.PlayBgm(true);
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+
     }
 
     // 게임 시작 시 초기화
