@@ -8,6 +8,8 @@ public class TalkManager : MonoBehaviour
     Dictionary<int, string[]> talkData; // 대화 데이터를 담는 딕셔너리
     Dictionary<int, string> nameData;
     public UIManager uiManager;
+    public Inventory inventory; // 인벤토리 참조
+    public static TalkManager Instance;
 
     void Awake()
     { 
@@ -34,7 +36,7 @@ public class TalkManager : MonoBehaviour
         talkData.Add(21 + 1000, new string[] { "고마워", });
         
         // 바람의 정령 퀘스트 대화
-        talkData.Add(40 + 3000, new string[] { 
+        talkData.Add(30 + 3000, new string[] { 
             "안녕, 너도 이곳을 모험하러 왔어?" ,//0
             "너도? 나 말고 또 누가 있었어?", //1
             "꽤나 많았지. 지금은 전부 어떻게 됐는지는 모르겠지만..." ,//2
@@ -46,7 +48,7 @@ public class TalkManager : MonoBehaviour
         }); 
 
         // 바람의 정령 퀘스트 완료 대화
-        talkData.Add(50 + 3000, new string[] { "찾았구나. 잘했어!" ,"이제 네 모험은 더 탄탄해졌을 거야. 행운을 빌어!"}); // 퀘스트 완료
+        talkData.Add(40 + 3000, new string[] { "찾았구나. 잘했어!" ,"이제 네 모험은 더 탄탄해졌을 거야. 행운을 빌어!"}); // 퀘스트 완료
 
 
         // 대화 상대 이름 추가
@@ -92,7 +94,9 @@ public class TalkManager : MonoBehaviour
             }  
         }
 
-        if (talkIndex == talkData[id].Length)
+        //if (talkIndex == talkData[id].Length)
+        //    return null;
+        if (talkIndex >= talkData[id].Length)
             return null;
         else
             return talkData[id][talkIndex];

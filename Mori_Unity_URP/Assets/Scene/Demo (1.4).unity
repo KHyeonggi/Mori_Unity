@@ -1570,7 +1570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &207959067
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1692,7 +1692,7 @@ Transform:
   m_GameObject: {fileID: 207959066}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.7455, y: 122.1529, z: 0}
+  m_LocalPosition: {x: -23.92, y: 122.33, z: 0}
   m_LocalScale: {x: 0.08423913, y: 0.083964005, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3238,8 +3238,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1498719701674377603, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
         type: 3}
+      propertyPath: m_Size.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1498719701674377603, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
+        type: 3}
       propertyPath: m_Offset.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1498719701674377603, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1498719701674377603, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
         type: 3}
@@ -8088,6 +8098,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 932168285}
+    - targetCorrespondingSourceObject: {fileID: 1498719701674377604, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 932168287}
     - targetCorrespondingSourceObject: {fileID: 8464694021128487765, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
         type: 3}
       insertIndex: -1
@@ -9866,7 +9880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &664243730
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12065,8 +12079,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 6000
-  isNpc: 0
+  isNpc: 1
   isShopNpc: 0
+--- !u!114 &932168287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932168281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c6b0b99bd88f9e47b59603de1715f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chestId: 10000
+  rewardItem:
+    itemType: 0
+    itemName: "\uB204\uAD70\uAC00\uC758 \uC720\uD488"
+    itemImage: {fileID: 21300000, guid: 5ee73dda2126713478bc04fe00f5f407, type: 3}
+    efts: []
 --- !u!1 &936344635
 GameObject:
   m_ObjectHideFlags: 0
@@ -13167,6 +13199,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 207959066}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1002684627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13235,6 +13279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 614845435}
+  inventory: {fileID: 0}
 --- !u!4 &1017178565
 Transform:
   m_ObjectHideFlags: 0
@@ -18993,7 +19038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameTime: 0
   maxGameTime: 20
-  isLive: 1
+  isLive: 0
   pool: {fileID: 773280705}
   player: {fileID: 76540022}
   CoverImage: {fileID: 0}
@@ -20514,4 +20559,3 @@ SceneRoots:
   - {fileID: 506908189}
   - {fileID: 207959070}
   - {fileID: 674836480}
-  - {fileID: 2107238529}

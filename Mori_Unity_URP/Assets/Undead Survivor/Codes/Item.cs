@@ -8,7 +8,7 @@ public enum ItemType //아이템 타입
 {
     Equipment,
     Consumables,
-    Etc
+    Etc,Rewards
 }
 
 [System.Serializable]

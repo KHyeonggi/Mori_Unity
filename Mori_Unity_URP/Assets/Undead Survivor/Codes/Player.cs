@@ -16,7 +16,6 @@ public class Player : MonoBehaviour
     Vector3 dirVec;
     GameObject scanObject;
     public GameObject talkPanel;
-    CapsuleCollider2D collider;
     //private PlayerControls controls;
     private bool isInvincible = false;
 
@@ -27,8 +26,6 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        collider = GetComponent<CapsuleCollider2D>();
-        collider.isTrigger = false;
     }
 
     void Update()
