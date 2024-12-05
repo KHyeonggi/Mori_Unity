@@ -5,8 +5,8 @@ using UnityEngine;
 public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance { get; private set; } // 싱글턴 인스턴스
-    public int questId;
-    public int questActionIndex;
+    public int questId; // 현재 퀘스트 id
+    public int questActionIndex;// 현재 퀘스트 진행 상태
     public GameObject[] questObject;
 
     Dictionary<int, QuestData> questList;
@@ -85,15 +85,6 @@ public class QuestManager : MonoBehaviour
         else if (questId == 20 && questActionIndex == 1)
         {
             questObject[0].SetActive(false); // 물의 정령 오브젝트 비활성화
-        }
-
-        // 바람의 정령 퀘스트 로직
-        if (questId == 30 && questActionIndex == 2)
-        {
-            questObject[0].SetActive(true); 
-        }
-        else if (questId == 30 && questActionIndex == 1)
-        {
         }
     }
 }

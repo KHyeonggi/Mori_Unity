@@ -10,6 +10,7 @@ public class TalkManager : MonoBehaviour
     public UIManager uiManager;
     public Inventory inventory; // 인벤토리 참조
     public static TalkManager Instance;
+    public QuestManager questManager; // QuestManager 참조
 
     void Awake()
     { 
@@ -23,11 +24,15 @@ public class TalkManager : MonoBehaviour
 
     void GenerateData()//대화 내용
     {    
-        // 대화 데이터 추가
+        // npc 기본 대화 데이터 추가
         talkData.Add(1000, new string[] {"안녕", "물의 정령으로 보이는 뭔가가 있다.", "잘못 건들었다간 물방울처럼 터질 것 같지만 안 터졌다.", "나중에 다시 한번 와서 말을 걸어보자." });
-        talkData.Add(2000, new string[] { "안녕","혹시 오른쪽에 있는 물의 정령을 구해줄수있을까?", "불의 정령으로 보이는 뭔가가 있다.", "나중에 다시 한번 와서 말을 걸어보자." });
+        talkData.Add(2000, new string[] { "안녕","불의 정령으로 보이는 뭔가가 있다.", "나중에 다시 한번 와서 말을 걸어보자." });
         talkData.Add(3000, new string[] {"안녕"});// 바람의 정령 대화 추가
 
+
+
+        // 불의 정령 퀘스트 대화
+        talkData.Add(10 + 2000, new string[] { "저기... 혹시 오른쪽에 있는 물의 정령을 구해줄수있을까?" });
 
         // 물의 정령 퀘스트 대화
         talkData.Add(10 + 1000, new string[] { "부탁이 있는데... 들어줄거면 다시 말 걸어줘" });
@@ -37,26 +42,23 @@ public class TalkManager : MonoBehaviour
         
         // 바람의 정령 퀘스트 대화
         talkData.Add(40 + 3000, new string[] { 
-            "안녕, 너도 이곳을 모험하러 왔어?" ,//0
-            "너도? 나 말고 또 누가 있었어?", //1
-            "꽤나 많았지. 지금은 전부 어떻게 됐는지는 모르겠지만..." ,//2
-            "위기에 직면해 모험을 더 이상 진행하지 못하게 되었을 수도 있고", //3
-            "아니면 지금도 계속 진행하고 있을 수도 있어.",//4
-            "..." ,//5
+            "안녕, 너도 이곳을 모험하러 왔어?" ,
+            "너도? 나 말고 또 누가 있었어?", 
+            "꽤나 많았지. 지금은 전부 어떻게 됐는지는 모르겠지만..." ,
+            "위기에 직면해 모험을 더 이상 진행하지 못하게 되었을 수도 있고", 
+            "아니면 지금도 계속 진행하고 있을 수도 있어.",
+            "..." ,
             "너도 이곳을 모험하러 왔다면 한 가지 시험을 내줄게." ,
             "너의 왼쪽을 보면 또 다른 방이 있어. 거기에서 잘 찾아봐.",
         });
-        talkData.Add(41 + 3000, new string[] {
-            "아직 안갔어?"
-        });
-
-        // 바람의 정령 퀘스트 완료 대화
-        talkData.Add(50 + 3000, new string[] { "찾았구나. 잘했어!" ,"이제 네 모험은 더 탄탄해졌을 거야. 행운을 빌어!"}); // 퀘스트 완료
+        talkData.Add(41 + 3000, new string[] {"아직 안갔어?"});
+        talkData.Add(50 + 3000, new string[] { "찾았구나. 잘했어!" ,"이제 네 모험은 더 탄탄해졌을 거야. 행운을 빌어!"}); // 바람의 정령 퀘스트 완료 대화
 
 
         // 대화 상대 이름 추가
         nameData.Add(1000, "물의 정령"); // 물의 정령
         nameData.Add(2000, "불의 정령"); // 불의 정령
+        nameData.Add(10 + 2000, "불의 정령");
         nameData.Add(10 + 1000, "물의 정령"); // 물의 정령
         nameData.Add(11 + 1000, "물의 정령"); // 물의 정령
         nameData.Add(20 + 5000, "모리"); // 모리
@@ -111,7 +113,7 @@ public class TalkManager : MonoBehaviour
         // 불의 정령 대화의 경우, 특정 인덱스에서만 모리의 이름 반환
         if (id == 2000)
         {
-            if (talkIndex == 2 || talkIndex == 3) // 특정 대화 인덱스에 모리의 이름 반환
+            if (talkIndex == 1 || talkIndex == 2) // 특정 대화 인덱스에 모리의 이름 반환
             {
                 return "모리";
             }
