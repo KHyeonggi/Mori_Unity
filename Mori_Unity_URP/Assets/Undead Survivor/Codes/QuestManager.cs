@@ -32,9 +32,9 @@ public class QuestManager : MonoBehaviour
     {
         questList.Add(10, new QuestData("말을 걸어보자", new int[] { 1000, 1000 })); //10:퀘스트 id  1000:npc id //물정령한테 두번 말걸기
         questList.Add(20, new QuestData("물의 정령의 부탁", new int[] { 5000, 1000 }));//부탁한것(id:5000)과 상호작용뒤 물정령한테 말걸기
-        questList.Add(30, new QuestData("퀘스트 완료 - 물의 정령의 부탁", new int[] { 0 }));
-        questList.Add(30, new QuestData("바람의 시험", new int[] { 3000, 6000,3000})); 
-        questList.Add(40, new QuestData("퀘스트 완료 - 바람의 시험", new int[] { 0 }));
+        questList.Add(30, new QuestData("퀘스트 완료 - 물의 정령의 부탁", new int[] { 3000 }));
+        questList.Add(40, new QuestData("바람의 시험", new int[] { 6000,3000 })); 
+        questList.Add(50, new QuestData("퀘스트 완료 - 바람의 시험", new int[] { 0 }));
     }
     
     public bool IsQuestActive(int questId)
