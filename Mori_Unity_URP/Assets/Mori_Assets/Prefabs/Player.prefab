@@ -1870,6 +1870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: -1000
   isNpc: 0
+  isShopNpc: 0
 --- !u!1 &4166278995959837188
 GameObject:
   m_ObjectHideFlags: 0
