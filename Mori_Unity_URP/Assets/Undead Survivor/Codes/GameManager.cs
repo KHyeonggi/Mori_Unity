@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 // GameManager는 게임의 전반적인 상태와 동작을 관리하는 스크립트입니다.
 public class GameManager : MonoBehaviour
@@ -77,28 +76,15 @@ public class GameManager : MonoBehaviour
     // 게임 시작 처리
     public void StartGame()
     {
-        if (!gameStarted) // 게임 시작 상태가 아닐 때만 실행
-        {
-            gameStarted = true; // 게임 시작 상태로 설정
-            isLive = true; // 게임 활성화
-            WeaponeMenu.SetActive(true); // 무기 메뉴 활성화
-            Time.timeScale = 1; // 시간 흐름 재개
-            Debug.Log("Game Started");
-            AudioManager.instance.PlayBgm(true);
-            AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
-        }
-        
-
+        gameStarted = true; // 게임 시작 상태로 설정
+        WeaponeMenu.SetActive(true);
     }
 
     // 게임 시작 시 초기화
     void Start()
     {
         health = maxHealth; // 체력 초기화
-        gameStarted = false; // 게임 시작 상태 초기화
-        isLive = false; // 게임 비활성화
-        Time.timeScale = 0; // 시간 정지 (초기 상태)
-        Debug.Log("Game initialized and paused.");
+        //Player.gameObject.SetActive(false); // 플레이어 비활성화 (테스트용 주석 처리)
     }
 
     // 플레이어 설정 및 적과 보스의 타겟 할당
@@ -146,8 +132,6 @@ public class GameManager : MonoBehaviour
     // 매 프레임 호출
     void Update()
     {
-        if (!gameStarted) return; // 게임 시작 전에는 Update 로직 중단
-
         gameTime += Time.deltaTime; // 게임 시간 증가
 
         if (gameTime > maxGameTime)
@@ -160,7 +144,7 @@ public class GameManager : MonoBehaviour
         {
             Stop(); // 대화 중이면 게임 중단
         }
-        else if (!talkPanel.activeSelf && gameStarted)
+        else if (!talkPanel.activeSelf)
         {
             Resume(); // 대화가 끝나면 게임 재개
         }
@@ -194,8 +178,6 @@ public class GameManager : MonoBehaviour
         uiResult.SetActive(true); // 결과 화면 활성화
         Debug.Log("Game Over!");
         Stop(); // 게임 중단
-
-        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
     }
 
     // 게임 중단 처리
@@ -291,14 +273,10 @@ public class GameManager : MonoBehaviour
             clearScreen.SetActive(true); // 클리어 화면 표시
             Time.timeScale = 0; // 시간 정지
             Debug.Log("Boss defeated! Game Clear!");
-
-            AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
         }
     }
     public void TakeDamage(float damage)
-    {   
-        SpriteRenderer playerSprite =player.GetComponent<SpriteRenderer>();
-        playerSprite.color = new Color(1, 1, 1, 0.5f);
+    {
         health -= damage;
         Debug.Log($"Player health: {health}");
         if (health <= 0)
@@ -310,7 +288,5 @@ public class GameManager : MonoBehaviour
                 GameOver();
             }
         }
-        Invoke("TakeDamage", 3f);
-        playerSprite.color = new Color(1, 1, 1, 1);
     }
 }

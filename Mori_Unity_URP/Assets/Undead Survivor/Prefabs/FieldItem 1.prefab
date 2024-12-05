@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: -1869315837
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: f572fb73444f98b49a3f8cca4c5a1f73, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7ec850149b619bf4c810a2cc9b423003, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,11 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-    itemType: 1
-    itemName: Potion
-    itemImage: {fileID: 21300000, guid: f572fb73444f98b49a3f8cca4c5a1f73, type: 3}
-    efts:
-    - {fileID: 11400000, guid: 6c5d547f87aba9f4da42fa1d8281ba60, type: 2}
+    itemType: 0
+    itemName: 
+    itemImage: {fileID: 0}
   image: {fileID: 6725235117437337547}
 --- !u!58 &3454911512071214693
 CircleCollider2D:

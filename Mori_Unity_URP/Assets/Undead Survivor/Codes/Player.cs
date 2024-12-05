@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -17,7 +16,6 @@ public class Player : MonoBehaviour
     GameObject scanObject;
     public GameObject talkPanel;
     //private PlayerControls controls;
-    private bool isInvincible = false;
 
     private bool isLive = true; // 플레이어 생존 여부
 
@@ -90,45 +88,16 @@ public class Player : MonoBehaviour
             spriter.flipX = inputVec.x < 0;
         }
     }
-    void OnDamaged(Vector2 targetPos)
-    {
-        try
-        {
-            if (isInvincible) return; // 무적 상태일 경우 아무 것도 하지 않음
 
-            isInvincible = true; // 무적 상태 설정
-            gameObject.layer = 21; // 피해를 받는 레이어로 변경
-            spriter.color = new Color(1, 1, 1, 0.4f); // 반투명 처리
+    
 
-            // 반응력
-            int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
-            rigid.AddForce(new Vector2(dirc, 1) * 10.0f, ForceMode2D.Impulse);
-
-            GameManager.instance.health -= 10; // 체력 감소
-
-            // 2초 후에 무적 상태 해제
-            Invoke("OffDamaged", 2);
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("OnDamaged에서 오류 발생: " + ex.Message);
-        }
-    }
-
-    void OffDamaged()
-    {
-        isInvincible = false; // 무적 상태 해제
-        gameObject.layer = 20;
-        spriter.color = new Color(1, 1, 1, 1);
-    }
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         if (!isLive) return; // 이미 죽은 경우 로직 실행하지 않음
 
         if (collision.collider.CompareTag("Enemy") || collision.collider.CompareTag("BossAI"))
         {
-            OnDamaged(collision.transform.position);
-            //GameManager.instance.health -= Time.deltaTime * 10; // 닿을 때마다 10데미지
+            GameManager.instance.health -= Time.deltaTime * 10; // 닿을 때마다 10데미지
             if (GameManager.instance.health <= 0)
             {
                 if (isLive) // 처음 죽었을 때만 실행
@@ -140,5 +109,4 @@ public class Player : MonoBehaviour
             }
         }
     }
-    
 }

@@ -16,7 +16,6 @@ public class BossAI : MonoBehaviour
 
     bool isLive;
     bool isAttacking;
-    bool isInvincible; // 무적 상태 플래그 추가
 
     Rigidbody2D rigid;
     Collider2D coll;
@@ -37,41 +36,29 @@ public class BossAI : MonoBehaviour
     {
         if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit") || !GameManager.instance.gameStarted || isAttacking)
         {
-            rigid.velocity = Vector2.zero; // 이동 중단
             return;
         }
 
         if (target == null)
         {
             Debug.LogWarning("Target is not assigned for the boss.");
-            rigid.velocity = Vector2.zero; // 이동 중단
             return;
         }
 
         float distanceToTarget = Vector2.Distance(rigid.position, target.position);
 
-        // Attack 상태가 끝난 경우 Walk로 전환
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
-            anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-        {
-            anim.SetBool("isWalking", true); // Walk 상태로 전환
-        }
-
         if (distanceToTarget <= attackRange)
         {
-            rigid.velocity = Vector2.zero; // 공격 범위에 도달했으므로 이동 중단
+            // 공격 모션 실행
             StartCoroutine(AttackWithDelayAndDoubleDelay());
         }
         else if (distanceToTarget <= moveDistance)
         {
-            anim.SetBool("isWalking", true); // Walk 상태 활성화
-            MoveTowardsPlayer(); // 플레이어를 추적
+            // 플레이어 추적
+            MoveTowardsPlayer();
         }
-        else
-        {
-            rigid.velocity = Vector2.zero; // 추적 범위를 벗어났으므로 이동 중단
-            anim.SetBool("isWalking", false); // Walk 상태 비활성화
-        }
+
+        rigid.velocity = Vector2.zero;
     }
 
     void LateUpdate()
@@ -99,7 +86,6 @@ public class BossAI : MonoBehaviour
         rigid.simulated = true;
         spriter.sortingOrder = 2;
         anim.SetBool("Dead", false);
-        isInvincible = false; // 무적 상태 초기화
     }
 
     public void Init(SpawnDataBoss data)
@@ -114,15 +100,11 @@ public class BossAI : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet") || !isLive || isInvincible)
+        if (!collision.CompareTag("Bullet") || !isLive)
             return;
 
-        Bullet bullet = collision.GetComponent<Bullet>();
-        if (bullet == null) return;
-
-        health -= bullet.damage;
+        health -= collision.GetComponent<Bullet>().damage;
         StartCoroutine(KnockBack());
-        StartCoroutine(EnableInvincibility(1.0f)); // 1초 무적 상태 부여
 
         if (health > 0) // 살아 있을 때
         {
@@ -137,27 +119,16 @@ public class BossAI : MonoBehaviour
             anim.SetBool("Dead", true);
             GameManager.instance.GetExp();
 
-            Dead();
+            // 적이 죽었을 때 Dead() 메서드를 일정 시간 후 호출하여 비활성화
+            StartCoroutine(HandleDeath());
         }
     }
 
-    IEnumerator EnableInvincibility(float duration)
+    IEnumerator HandleDeath()
     {
-        isInvincible = true; // 무적 상태 활성화
-
-        // 스프라이트 깜빡임 효과
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            spriter.color = new Color(1, 1, 1, 0.5f); // 반투명
-            yield return new WaitForSeconds(0.1f);
-            spriter.color = Color.white; // 원래 색상
-            yield return new WaitForSeconds(0.1f);
-            elapsed += 0.2f;
-        }
-
-        isInvincible = false; // 무적 상태 해제
-        spriter.color = Color.white; // 원래 색상 복원
+        // 죽음 애니메이션 재생 후 잠시 기다렸다가 Dead() 호출
+        yield return new WaitForSeconds(1.0f); // 애니메이션 길이에 따라 조정 가능
+        Dead();
     }
 
     IEnumerator KnockBack()
@@ -177,25 +148,12 @@ public class BossAI : MonoBehaviour
 
     void Dead()
     {
-        isLive = false;
-        coll.enabled = false;
-        rigid.simulated = false;
-        spriter.sortingOrder = 1;
-        anim.SetBool("Dead", true);
-
         if (OnBossDeath != null)
         {
-            OnBossDeath(gameObject); // 이벤트 호출
+            OnBossDeath(gameObject);  // 이벤트 호출
         }
-        GameManager.instance.BossDefeated();
-
-        StartCoroutine(DisableAfterAnimation(1.0f)); // 1초 후 비활성화
-    }
-
-    IEnumerator DisableAfterAnimation(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        gameObject.SetActive(false); // 비활성화
+        GameManager.instance.BossDefeated(); // 보스가 죽었음을 GameManager에 알림
+        gameObject.SetActive(false);  // 보스 비활성화
     }
 
     public void SetTarget(Rigidbody2D playerTarget)
@@ -210,13 +168,16 @@ public class BossAI : MonoBehaviour
         Debug.Log($"BossAI target set: {name} -> {target.name}");
     }
 
+    // 플레이어를 공격하는 메서드
     IEnumerator AttackWithDelayAndDoubleDelay()
     {
         isAttacking = true;
         anim.SetTrigger("Attack");
-        anim.SetBool("isWalking", false); // 공격 중 Walk 비활성화
         Debug.Log("Boss is attacking the player!");
+        yield return new WaitForSeconds(0.5f); // 공격 모션 후 첫 번째 딜레이 추가
 
+        // 플레이어에게 데미지 주기
+        Player playerComponent = target.GetComponent<Player>();
         if (GameManager.instance != null)
         {
             GameManager.instance.TakeDamage(attackDamage);
@@ -226,16 +187,14 @@ public class BossAI : MonoBehaviour
         {
             Debug.LogError("GameManager instance is null, unable to call TakeDamage.");
         }
-
         yield return new WaitForSeconds(1.0f); // 공격 간 딜레이 추가
         isAttacking = false;
-        anim.SetBool("isWalking", true); // Walk 상태로 전환
     }
 
-
+    // 플레이어를 향해 이동하는 메서드
     void MoveTowardsPlayer()
     {
         Vector2 direction = (target.position - rigid.position).normalized;
-        rigid.velocity = direction * speed; // 이동 방향에 속도 설정
+        rigid.MovePosition(rigid.position + direction * speed * Time.fixedDeltaTime);
     }
 }
