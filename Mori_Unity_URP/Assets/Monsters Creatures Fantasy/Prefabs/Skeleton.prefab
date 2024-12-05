@@ -184,12 +184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68612b774f285e54c9ba0f0d7ee6e8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  moveDistance: 10
-  attackRange: 1
+  speed: 4
+  moveDistance: 12
+  attackRange: 1.2
   health: 300
   maxHealth: 300
   attackDamage: 20
   knockBackForce: 2
-  animCon: []
+  animCon:
+  - {fileID: 9100000, guid: 1663282a9cf886c43b0f0e459be4db3c, type: 2}
   target: {fileID: 0}
