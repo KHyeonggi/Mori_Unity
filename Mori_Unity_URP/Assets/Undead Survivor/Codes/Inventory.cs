@@ -45,6 +45,7 @@ public class Inventory : MonoBehaviour
             items.Add(_item);
             if (onChangeItem != null)
                 onChangeItem.Invoke();//onCHangeItem호출
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
             return true;//아이템 추가 성공시 true
         }
         return false; //아이템 추가 실패시 false

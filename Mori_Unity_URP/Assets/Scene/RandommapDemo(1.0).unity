@@ -4354,6 +4354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 614845435}
+  inventory: {fileID: 0}
 --- !u!4 &1017178565
 Transform:
   m_ObjectHideFlags: 0
@@ -8416,7 +8417,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 7.0375
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9211,7 +9212,6 @@ SceneRoots:
   - {fileID: 1973395499}
   - {fileID: 773280706}
   - {fileID: 2002611240}
-  - {fileID: 2107238529}
   - {fileID: 1194764215}
   - {fileID: 2084649060}
   - {fileID: 1309525043}
@@ -9230,3 +9230,4 @@ SceneRoots:
   - {fileID: 420258035}
   - {fileID: 65848616}
   - {fileID: 1742886260}
+  - {fileID: 2107238529}
