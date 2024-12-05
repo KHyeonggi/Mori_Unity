@@ -43,7 +43,6 @@ public class Player : MonoBehaviour
             dirVec = Vector3.left;
         else if (Input.GetKey(KeyCode.D) || Input.GetKey("right")) // 오른쪽에 있는 오브젝트 인식
             dirVec = Vector3.right;
-        Invoke("OnCollisionStay2D", 3f);
     }
 
     private void OnInspect() // 오브젝트 인식

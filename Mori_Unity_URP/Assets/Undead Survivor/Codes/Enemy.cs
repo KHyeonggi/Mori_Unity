@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 // Enemy 클래스는 적의 행동 및 상태를 관리하는 스크립트입니다.
@@ -22,6 +23,7 @@ public class Enemy : MonoBehaviour
     public Animator anim; // 적의 애니메이터
     public SpriteRenderer spriter; // 적의 스프라이트 렌더러
     public WaitForFixedUpdate wait; // FixedUpdate와 함께 사용하는 Wait 객체
+    public Vector3 pos;
 
     // Awake 메서드: 컴포넌트 초기화
     void Awake()
@@ -67,7 +69,7 @@ public class Enemy : MonoBehaviour
     {
         if (!isLive || target == null)
             return;
-
+        pos = transform.position; // 현재 위치 저장
         // 적이 플레이어를 바라보게끔 스프라이트 반전 설정
         spriter.flipX = target.position.x < rigid.position.x;
     }
@@ -128,7 +130,7 @@ public class Enemy : MonoBehaviour
             spriter.sortingOrder = 1;
             anim.SetBool("Dead", true);
             GameManager.instance.GetExp(); // 경험치 획득
-
+            ItemDatabase.instance.DropItem(pos); //몬스터 처치시 10% 확율 아이템생성
             StartCoroutine(HandleDeath()); // 죽음 처리 코루틴 실행
         }
     }
@@ -166,6 +168,7 @@ public class Enemy : MonoBehaviour
         }
 
         gameObject.SetActive(false); // 적 비활성화
+        
     }
 
     // OnDestroy: 적이 파괴될 때 호출

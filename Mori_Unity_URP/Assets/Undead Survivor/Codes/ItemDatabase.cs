@@ -16,8 +16,18 @@ public class ItemDatabase : MonoBehaviour
     private void Start()
     {
         for(int i = 0; i < 6; i++) {//아이템 6개 생성 임시
-           GameObject go= Instantiate(fieldItemPrefab, pos[i], Quaternion.identity);
-            go.GetComponent<FieldItem>().SetItem(itemDB[Random.Range(0, 3)]);
+           GameObject go = Instantiate(fieldItemPrefab, pos[i], Quaternion.identity);
+            go.GetComponent<FieldItem>().SetItem(itemDB[Random.Range(0, 4)]);
         }
+    }
+    public void DropItem(Vector3 pos)
+    {
+        Debug.Log("아이템 생성");
+        int i = Random.Range(0, 10);
+        if(i == 0) {
+            GameObject go = Instantiate(fieldItemPrefab, pos, Quaternion.identity);
+            go.GetComponent<FieldItem>().SetItem(itemDB[Random.Range(0, 4)]);
+        }
+        
     }
 }
