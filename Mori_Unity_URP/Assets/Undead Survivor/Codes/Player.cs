@@ -16,7 +16,6 @@ public class Player : MonoBehaviour
     Vector3 dirVec;
     GameObject scanObject;
     public GameObject talkPanel;
-    CapsuleCollider2D collider;
     //private PlayerControls controls;
     private bool isInvincible = false;
 
@@ -27,8 +26,6 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        collider = GetComponent<CapsuleCollider2D>();
-        collider.isTrigger = false;
     }
 
     void Update()
@@ -43,7 +40,6 @@ public class Player : MonoBehaviour
             dirVec = Vector3.left;
         else if (Input.GetKey(KeyCode.D) || Input.GetKey("right")) // 오른쪽에 있는 오브젝트 인식
             dirVec = Vector3.right;
-        Invoke("OnCollisionStay2D", 3f);
     }
 
     private void OnInspect() // 오브젝트 인식

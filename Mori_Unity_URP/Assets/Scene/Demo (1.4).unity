@@ -18993,7 +18993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameTime: 0
   maxGameTime: 20
-  isLive: 1
+  isLive: 0
   pool: {fileID: 773280705}
   player: {fileID: 76540022}
   CoverImage: {fileID: 0}
@@ -20514,4 +20514,3 @@ SceneRoots:
   - {fileID: 506908189}
   - {fileID: 207959070}
   - {fileID: 674836480}
-  - {fileID: 2107238529}

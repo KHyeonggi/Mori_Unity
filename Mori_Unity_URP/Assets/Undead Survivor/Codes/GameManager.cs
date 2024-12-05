@@ -77,12 +77,17 @@ public class GameManager : MonoBehaviour
     // 게임 시작 처리
     public void StartGame()
     {
-        gameStarted = true; // 게임 시작 상태로 설정
-        WeaponeMenu.SetActive(true);
-
-
-        AudioManager.instance.PlayBgm(true);
-        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        if (!gameStarted) // 게임 시작 상태가 아닐 때만 실행
+        {
+            gameStarted = true; // 게임 시작 상태로 설정
+            isLive = true; // 게임 활성화
+            WeaponeMenu.SetActive(true); // 무기 메뉴 활성화
+            Time.timeScale = 1; // 시간 흐름 재개
+            Debug.Log("Game Started");
+            AudioManager.instance.PlayBgm(true);
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        }
+        
 
     }
 
@@ -90,7 +95,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         health = maxHealth; // 체력 초기화
-        //Player.gameObject.SetActive(false); // 플레이어 비활성화 (테스트용 주석 처리)
+        gameStarted = false; // 게임 시작 상태 초기화
+        isLive = false; // 게임 비활성화
+        Time.timeScale = 0; // 시간 정지 (초기 상태)
+        Debug.Log("Game initialized and paused.");
     }
 
     // 플레이어 설정 및 적과 보스의 타겟 할당
@@ -138,6 +146,8 @@ public class GameManager : MonoBehaviour
     // 매 프레임 호출
     void Update()
     {
+        if (!gameStarted) return; // 게임 시작 전에는 Update 로직 중단
+
         gameTime += Time.deltaTime; // 게임 시간 증가
 
         if (gameTime > maxGameTime)
@@ -150,7 +160,7 @@ public class GameManager : MonoBehaviour
         {
             Stop(); // 대화 중이면 게임 중단
         }
-        else if (!talkPanel.activeSelf)
+        else if (!talkPanel.activeSelf && gameStarted)
         {
             Resume(); // 대화가 끝나면 게임 재개
         }
