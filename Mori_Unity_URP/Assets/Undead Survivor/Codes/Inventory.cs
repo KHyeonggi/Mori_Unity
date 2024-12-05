@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        slotCnt = 36;//슬롯 갯수 36개로 초기화
+        slotCnt = 16;//슬롯 갯수 36개로 초기화
     }
 
     public bool AddItem(Item _item)
