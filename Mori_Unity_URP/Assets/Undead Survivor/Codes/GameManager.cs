@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
     {
         gameStarted = true; // 게임 시작 상태로 설정
         WeaponeMenu.SetActive(true);
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
     // 게임 시작 시 초기화
@@ -179,6 +181,8 @@ public class GameManager : MonoBehaviour
         uiResult.SetActive(true); // 결과 화면 활성화
         Debug.Log("Game Over!");
         Stop(); // 게임 중단
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
     }
 
     // 게임 중단 처리
@@ -274,6 +278,8 @@ public class GameManager : MonoBehaviour
             clearScreen.SetActive(true); // 클리어 화면 표시
             Time.timeScale = 0; // 시간 정지
             Debug.Log("Boss defeated! Game Clear!");
+
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
         }
     }
     public void TakeDamage(float damage)
