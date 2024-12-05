@@ -89,6 +89,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    
+
     void OnCollisionStay2D(Collision2D collision)
     {
         if (!isLive) return; // 이미 죽은 경우 로직 실행하지 않음

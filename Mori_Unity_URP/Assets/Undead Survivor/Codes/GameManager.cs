@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     public PauseMenu pauseMenu; // 일시정지 메뉴
     public GameObject uiResult; // 결과 화면 UI
     public Animation anim; // 애니메이션 객체
+    public GameObject WeaponeMenu;
+
 
     // 플레이어 정보
     [Header("# Player Info")]
@@ -53,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     // 클리어 화면
     public GameObject clearScreen; // 클리어 화면 UI
-
+    public CinemachineVirtualCamera virtualCamera;
     // 싱글턴 초기화
     void Awake()
     {
@@ -67,19 +70,21 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Multiple GameManager instances detected!");
         }
+        
     }
 
     // 게임 시작 처리
     public void StartGame()
     {
         gameStarted = true; // 게임 시작 상태로 설정
+        WeaponeMenu.SetActive(true);
     }
 
     // 게임 시작 시 초기화
     void Start()
     {
         health = maxHealth; // 체력 초기화
-        Player.gameObject.SetActive(false); // 플레이어 비활성화 (테스트용 주석 처리)
+        //Player.gameObject.SetActive(false); // 플레이어 비활성화 (테스트용 주석 처리)
     }
 
     // 플레이어 설정 및 적과 보스의 타겟 할당
@@ -88,7 +93,15 @@ public class GameManager : MonoBehaviour
         Player = player; // 플레이어 오브젝트 설정
 
         Debug.Log($"SetPlayer called. Player: {player.name}");
-
+        if (virtualCamera != null)
+        {
+            virtualCamera.Follow = player.transform;
+            Debug.Log($"Virtual camera now follows: {player.name}");
+        }
+        else
+        {
+            Debug.LogWarning("Virtual camera is not assigned in the inspector.");
+        }
         // 모든 Enemy에게 플레이어를 타겟으로 설정
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         foreach (Enemy enemy in enemies)
@@ -260,6 +273,20 @@ public class GameManager : MonoBehaviour
             clearScreen.SetActive(true); // 클리어 화면 표시
             Time.timeScale = 0; // 시간 정지
             Debug.Log("Boss defeated! Game Clear!");
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        Debug.Log($"Player health: {health}");
+        if (health <= 0)
+        {
+            if (isLive) // 처음 죽었을 때만 실행
+            {
+                isLive = false; // 플레이어 사망 상태로 변경
+               
+                GameOver();
+            }
         }
     }
 }

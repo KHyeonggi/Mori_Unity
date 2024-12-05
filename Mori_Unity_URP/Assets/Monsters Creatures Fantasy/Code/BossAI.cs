@@ -9,10 +9,13 @@ public class BossAI : MonoBehaviour
     public float attackRange;  // 플레이어를 공격할 거리
     public float health;
     public float maxHealth;
+    public float attackDamage = 20f; // 보스의 공격 데미지
+    public float knockBackForce = 2f; // 넉백 크기
     public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
 
     bool isLive;
+    bool isAttacking;
 
     Rigidbody2D rigid;
     Collider2D coll;
@@ -31,7 +34,7 @@ public class BossAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit") || !GameManager.instance.gameStarted)
+        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit") || !GameManager.instance.gameStarted || isAttacking)
         {
             return;
         }
@@ -47,7 +50,7 @@ public class BossAI : MonoBehaviour
         if (distanceToTarget <= attackRange)
         {
             // 공격 모션 실행
-            Attack();
+            StartCoroutine(AttackWithDelayAndDoubleDelay());
         }
         else if (distanceToTarget <= moveDistance)
         {
@@ -136,7 +139,7 @@ public class BossAI : MonoBehaviour
         {
             Vector3 playerPos = GameManager.instance.player.transform.position;
             Vector3 dirVec = transform.position - playerPos;
-            rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+            rigid.AddForce(dirVec.normalized * knockBackForce, ForceMode2D.Impulse);
         }
     }
 
@@ -166,11 +169,26 @@ public class BossAI : MonoBehaviour
     }
 
     // 플레이어를 공격하는 메서드
-    void Attack()
+    IEnumerator AttackWithDelayAndDoubleDelay()
     {
+        isAttacking = true;
         anim.SetTrigger("Attack");
         Debug.Log("Boss is attacking the player!");
-        // 공격 로직 추가 가능 (예: 플레이어에게 데미지)
+        yield return new WaitForSeconds(0.5f); // 공격 모션 후 첫 번째 딜레이 추가
+
+        // 플레이어에게 데미지 주기
+        Player playerComponent = target.GetComponent<Player>();
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.TakeDamage(attackDamage);
+            Debug.Log($"Player took {attackDamage} damage from the boss.");
+        }
+        else
+        {
+            Debug.LogError("GameManager instance is null, unable to call TakeDamage.");
+        }
+        yield return new WaitForSeconds(1.0f); // 공격 간 딜레이 추가
+        isAttacking = false;
     }
 
     // 플레이어를 향해 이동하는 메서드
@@ -179,6 +197,4 @@ public class BossAI : MonoBehaviour
         Vector2 direction = (target.position - rigid.position).normalized;
         rigid.MovePosition(rigid.position + direction * speed * Time.fixedDeltaTime);
     }
-    
-
 }
