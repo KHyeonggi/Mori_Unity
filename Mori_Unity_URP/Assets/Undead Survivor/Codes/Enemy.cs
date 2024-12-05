@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     public Animator anim; // 적의 애니메이터
     public SpriteRenderer spriter; // 적의 스프라이트 렌더러
     public WaitForFixedUpdate wait; // FixedUpdate와 함께 사용하는 Wait 객체
+    public Vector3 pos;
 
     // Awake 메서드: 컴포넌트 초기화
     void Awake()
@@ -70,6 +71,7 @@ public class Enemy : MonoBehaviour
 
         // 적이 플레이어를 바라보게끔 스프라이트 반전 설정
         spriter.flipX = target.position.x < rigid.position.x;
+        pos = transform.position;
     }
 
     // OnEnable: 적이 활성화될 때 초기화
@@ -128,7 +130,7 @@ public class Enemy : MonoBehaviour
             spriter.sortingOrder = 1;
             anim.SetBool("Dead", true);
             GameManager.instance.GetExp(); // 경험치 획득
-
+            ItemDatabase.instance.DropItem(pos);
             StartCoroutine(HandleDeath()); // 죽음 처리 코루틴 실행
         }
     }
