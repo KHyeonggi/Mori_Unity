@@ -77,14 +77,6 @@ public class GameManager : MonoBehaviour
     // 게임 시작 처리
     public void StartGame()
     {
-        gameStarted = true; // 게임 시작 상태로 설정
-        WeaponeMenu.SetActive(true);
-
-
-        AudioManager.instance.PlayBgm(true);
-        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
-
-    }
         if (!gameStarted) // 게임 시작 상태가 아닐 때만 실행
         {
             gameStarted = true; // 게임 시작 상태로 설정
@@ -92,8 +84,11 @@ public class GameManager : MonoBehaviour
             WeaponeMenu.SetActive(true); // 무기 메뉴 활성화
             Time.timeScale = 1; // 시간 흐름 재개
             Debug.Log("Game Started");
+            AudioManager.instance.PlayBgm(true);
             AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
         }
+        
+
     }
 
     // 게임 시작 시 초기화

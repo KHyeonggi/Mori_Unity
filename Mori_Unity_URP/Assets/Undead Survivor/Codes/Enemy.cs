@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviour
             spriter.sortingOrder = 1;
             anim.SetBool("Dead", true);
             GameManager.instance.GetExp(); // 版氰摹 裙垫
-
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
             StartCoroutine(HandleDeath()); // 磷澜 贸府 内风凭 角青
         }
     }
