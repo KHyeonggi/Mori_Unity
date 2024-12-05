@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     // 게임 상태 관련 변수
     public float gameTime; // 현재 게임 시간
     public float maxGameTime = 20f; // 게임 최대 시간
-    public bool isLive = true; // 게임이 활성 상태인지 여부
+    public bool isLive = false; // 게임이 활성 상태인지 여부
 
     // 외부 연결된 오브젝트와 UI
     public PoolManeger pool; // 풀 매니저 (객체 풀링 관리)
@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     // 싱글턴 초기화
     void Awake()
     {
+       
         if (instance == null)
         {
             instance = this; // 인스턴스 할당
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         health = maxHealth; // 체력 초기화
-        // Player.gameObject.SetActive(false); // 플레이어 비활성화 (테스트용 주석 처리)
+        Player.gameObject.SetActive(false); // 플레이어 비활성화 (테스트용 주석 처리)
     }
 
     // 플레이어 설정 및 적과 보스의 타겟 할당
@@ -151,6 +152,7 @@ public class GameManager : MonoBehaviour
     // 게임 재개 처리
     public void Resume()
     {
+        gameStarted = true;
         isLive = true; // 게임 활성화
         Time.timeScale = 1; // 시간 흐름 재개
     }
