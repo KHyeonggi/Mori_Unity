@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 // GameManager는 게임의 전반적인 상태와 동작을 관리하는 스크립트입니다.
 public class GameManager : MonoBehaviour
@@ -276,7 +277,9 @@ public class GameManager : MonoBehaviour
         }
     }
     public void TakeDamage(float damage)
-    {
+    {   
+        SpriteRenderer playerSprite =player.GetComponent<SpriteRenderer>();
+        playerSprite.color = new Color(1, 1, 1, 0.5f);
         health -= damage;
         Debug.Log($"Player health: {health}");
         if (health <= 0)
@@ -288,5 +291,7 @@ public class GameManager : MonoBehaviour
                 GameOver();
             }
         }
+        Invoke("TakeDamage", 3f);
+        playerSprite.color = new Color(1, 1, 1, 1);
     }
 }
