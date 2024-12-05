@@ -156,11 +156,11 @@ public class GameManager : MonoBehaviour
         }
 
         // 대화 패널 상태에 따라 게임 중단 및 재개
-        if (talkPanel.activeSelf)
+        if (talkPanel.activeSelf && isLive)
         {
             Stop(); // 대화 중이면 게임 중단
         }
-        else if (!talkPanel.activeSelf && gameStarted)
+        else if (!talkPanel.activeSelf && !isLive && gameStarted)
         {
             Resume(); // 대화가 끝나면 게임 재개
         }
@@ -238,6 +238,11 @@ public class GameManager : MonoBehaviour
         {
             isAction = false; // 대화 종료
             talkIndex = 0; // 대화 인덱스 초기화
+            talkPanel.SetActive(false); // 대화 패널 비활성화
+
+            // 게임 상태 재개
+            Resume();
+
             Debug.Log(questManager.CheckQuest(id)); // 퀘스트 완료 여부 확인
             return;
         }

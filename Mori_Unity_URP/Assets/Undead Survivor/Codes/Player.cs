@@ -97,7 +97,6 @@ public class Player : MonoBehaviour
             if (isInvincible) return; // 무적 상태일 경우 아무 것도 하지 않음
 
             isInvincible = true; // 무적 상태 설정
-            gameObject.layer = 21; // 피해를 받는 레이어로 변경
             spriter.color = new Color(1, 1, 1, 0.4f); // 반투명 처리
 
             // 반응력
@@ -118,7 +117,6 @@ public class Player : MonoBehaviour
     void OffDamaged()
     {
         isInvincible = false; // 무적 상태 해제
-        gameObject.layer = 20;
         spriter.color = new Color(1, 1, 1, 1);
     }
     void OnCollisionEnter2D(Collision2D collision)

@@ -9880,7 +9880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &664243730
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19037,7 +19037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameTime: 0
-  maxGameTime: 20
+  maxGameTime: 400000
   isLive: 0
   pool: {fileID: 773280705}
   player: {fileID: 76540022}
@@ -19066,7 +19066,7 @@ MonoBehaviour:
   gameStarted: 0
   clearScreen: {fileID: 504460890}
   virtualCamera: {fileID: 0}
-  pauseMenuCanvas: {fileID: 0}
+  pauseMenuCanvas: {fileID: 1065896222}
 --- !u!4 &1973395499
 Transform:
   m_ObjectHideFlags: 0
@@ -20545,8 +20545,6 @@ SceneRoots:
   - {fileID: 664243730}
   - {fileID: 164895141}
   - {fileID: 1293341706}
-  - {fileID: 510849181}
-  - {fileID: 1556653929}
   - {fileID: 1017178565}
   - {fileID: 843831569}
   - {fileID: 356011099}
@@ -20558,4 +20556,7 @@ SceneRoots:
   - {fileID: 1389169195}
   - {fileID: 506908189}
   - {fileID: 207959070}
+  - {fileID: 510849181}
+  - {fileID: 1556653929}
   - {fileID: 674836480}
+  - {fileID: 2107238529}

@@ -650,8 +650,13 @@ MonoBehaviour:
     itemImage: {fileID: 21300000, guid: f572fb73444f98b49a3f8cca4c5a1f73, type: 3}
     efts:
     - {fileID: 11400000, guid: 6c5d547f87aba9f4da42fa1d8281ba60, type: 2}
-  - itemType: 2
-    itemName: Candy
+  - itemType: 1
+    itemName: Carrrot
+    itemImage: {fileID: 21300000, guid: 1f6af2478a9ac42408d23bcfe5384c20, type: 3}
+    efts:
+    - {fileID: 11400000, guid: adf48fc4648c6154ca39158f2f36bca9, type: 2}
+  - itemType: 0
+    itemName: Weapon
     itemImage: {fileID: 21300000, guid: 950d4fbefea4a79478beaa90ab075aa9, type: 3}
     efts: []
   fieldItemPrefab: {fileID: 5681187203527606388, guid: bb325a933f8cb5a45bbd4760f2f88f8a,
@@ -8417,7 +8422,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.0375
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
