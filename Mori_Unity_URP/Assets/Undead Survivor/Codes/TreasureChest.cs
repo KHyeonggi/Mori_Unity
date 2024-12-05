@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TreasureChest : MonoBehaviour
 {
-    public int chestId = 10000; // 보물상자 ID
+    public int chestId = 7000; // 보물상자 ID
     public Item rewardItem; // 보상 아이템
     private GameObject player; // 플레이어 오브젝트
     private Inventory inventory; // 인벤토리 참조

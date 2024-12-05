@@ -45,7 +45,10 @@ public class TalkManager : MonoBehaviour
             "..." ,//5
             "너도 이곳을 모험하러 왔다면 한 가지 시험을 내줄게." ,
             "너의 왼쪽을 보면 또 다른 방이 있어. 거기에서 잘 찾아봐.",
-        }); 
+        });
+        talkData.Add(41 + 3000, new string[] {
+            "아직 안갔어?"
+        });
 
         // 바람의 정령 퀘스트 완료 대화
         talkData.Add(50 + 3000, new string[] { "찾았구나. 잘했어!" ,"이제 네 모험은 더 탄탄해졌을 거야. 행운을 빌어!"}); // 퀘스트 완료
@@ -61,6 +64,7 @@ public class TalkManager : MonoBehaviour
 
         nameData.Add(3000, "바람의 정령"); // 바람의 정령
         nameData.Add(40 + 3000, "바람의 정령");
+        nameData.Add(41 + 3000, "바람의 정령");
         nameData.Add(50 + 3000, "바람의 정령");  
     }
 
@@ -71,9 +75,9 @@ public class TalkManager : MonoBehaviour
         if (!talkData.ContainsKey(id))
         {
             if (!talkData.ContainsKey(id - id % 10))
-                return GetTalk (id - id % 100, talkIndex); // 첫 번째 대화 가져오기
+                return GetTalk (id - id % 1000, talkIndex); // 첫 번째 대화 가져오기
             else
-                return GetTalk(id - id % 10, talkIndex);// 첫 번째 퀘스트 대화 가져오기
+                return GetTalk(id - id % 100, talkIndex);// 첫 번째 퀘스트 대화 가져오기
 
         }
         if (!talkData.ContainsKey(id)) 
