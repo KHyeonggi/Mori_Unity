@@ -315,6 +315,8 @@ public class Weapon : MonoBehaviour
         {
             fireTimer = 0f;
             Fire();
+
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
         }
     }
 

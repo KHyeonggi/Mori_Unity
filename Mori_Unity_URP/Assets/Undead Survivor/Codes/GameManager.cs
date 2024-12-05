@@ -77,6 +77,14 @@ public class GameManager : MonoBehaviour
     // 게임 시작 처리
     public void StartGame()
     {
+        gameStarted = true; // 게임 시작 상태로 설정
+        WeaponeMenu.SetActive(true);
+
+
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+
+    }
         if (!gameStarted) // 게임 시작 상태가 아닐 때만 실행
         {
             gameStarted = true; // 게임 시작 상태로 설정
