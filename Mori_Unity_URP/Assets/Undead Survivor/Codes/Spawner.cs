@@ -48,8 +48,23 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < spawnAmount; i++)
         {
+            // 객체 풀에서 적 오브젝트 가져오기
             GameObject enemy = GameManager.instance.pool.Get(0);
-            enemy.transform.position = spawnPoint[Random.Range(0, spawnPoint.Length)].position;
+
+            // 랜덤 오프셋 생성 (-1에서 1 사이의 값)
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-1f, 1f), // X축 랜덤 오프셋
+                Random.Range(-1f, 1f),                    // Y축은 고정 (2D 환경이라면)
+                0 // Z축 랜덤 오프셋
+            );
+
+            // 랜덤 오프셋을 적용하여 스폰 위치 결정
+            Vector3 spawnPosition = spawnPoint[Random.Range(0, spawnPoint.Length)].position + randomOffset;
+
+            // 적의 위치 설정
+            enemy.transform.position = spawnPosition;
+
+            // 적 초기화
             enemy.GetComponent<Enemy>().Init(spawnData[level]);
         }
     }

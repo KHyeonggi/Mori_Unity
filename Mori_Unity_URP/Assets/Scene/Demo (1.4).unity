@@ -1077,7 +1077,7 @@ PrefabInstance:
     - target: {fileID: 803129881711202224, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26.25
+      value: 24.47
       objectReference: {fileID: 0}
     - target: {fileID: 803129881711202224, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -3550,6 +3550,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326412523729323886, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326412523729323886, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1869315837
       objectReference: {fileID: 0}
     - target: {fileID: 2348515803221842494, guid: 5c34d595435c65c4daaecd2f6e2d5b8c,
         type: 3}
@@ -11808,6 +11818,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
+      propertyPath: spawnData.Array.data[0].health
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
+        type: 3}
       propertyPath: spawnData.Array.data[0].spritType
       value: 1
       objectReference: {fileID: 0}
@@ -11978,7 +11993,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnData.Array.data[0].health
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -12314,6 +12329,11 @@ PrefabInstance:
         type: 3}
       propertyPath: spawnInterval
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
+        type: 3}
+      propertyPath: spawnData.Array.data[0].health
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -17979,7 +17999,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnData.Array.data[0].health
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -18422,7 +18442,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnData.Array.data[0].health
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -18512,6 +18532,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb2df5b680b64b449a78162ebcd98e97, type: 3}
+--- !u!4 &1691047596 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7387642999627212126, guid: 7cd6e129c806e534798d060626e889d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2126280169}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1692723578
 GameObject:
   m_ObjectHideFlags: 0
@@ -20218,7 +20244,7 @@ PrefabInstance:
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
       propertyPath: spawnData.Array.data[0].health
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
@@ -21454,6 +21480,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
         type: 3}
+      propertyPath: spawnPoint.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
+        type: 3}
+      propertyPath: spawnPoint.Array.data[0]
+      value: 
+      objectReference: {fileID: 1691047596}
+    - target: {fileID: 3548402065610293517, guid: 7cd6e129c806e534798d060626e889d9,
+        type: 3}
       propertyPath: spawnData.Array.data[0].spritType
       value: 1
       objectReference: {fileID: 0}
@@ -21461,6 +21497,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spawner (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387642999627212126, guid: 7cd6e129c806e534798d060626e889d9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
