@@ -49,4 +49,4 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletRange: 5
   damage: 10
-  fireRate: 0.1
+  fireRate: 0.18
