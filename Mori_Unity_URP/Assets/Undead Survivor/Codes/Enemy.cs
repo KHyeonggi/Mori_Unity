@@ -1,128 +1,191 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
+// Enemy ??????? ???? ?? ?? ???¸? ??????? ??????????.
 public class Enemy : MonoBehaviour
 {
-    public float speed;
-    public float moveDistance;
-    public float health;
-    public float maxHealth;
-    public RuntimeAnimatorController[] animCon;
-    public Rigidbody2D target;
+    // public ??????: ??ο??? ???? ?????? ???? ?????
+    public float speed; // ???? ??? ???
+    public float moveDistance; // ?÷???? ????? ??? ????
+    public float health; // ???? ???? ???
+    public float maxHealth; // ???? ??? ???
+    public RuntimeAnimatorController[] animCon; // ??????? ?????? ?迭
+    public Rigidbody2D target; // ????? ??? ?÷?????? Rigidbody2D
 
-    bool isLive;
+    // ???? ???? ??????
+    public bool isLive; // ???? ???????? ????
 
-    Rigidbody2D rigid;
-    Collider2D coll;
-    Animator anim;
-    SpriteRenderer spriter;
-    WaitForFixedUpdate wait;
 
+    // Unity 컴포넌트 참조 변수들
+    public Rigidbody2D rigid; // 적의 Rigidbody2D
+    public Collider2D coll; // 적의 충돌 체계
+    public Animator anim; // 적의 애니메이터
+    public SpriteRenderer spriter; // 적의 스프라이트 렌더러
+    public WaitForFixedUpdate wait; // FixedUpdate와 함께 사용하는 Wait 객체
+    public Vector3 pos;
+
+
+    // Awake ?????: ??????? ????
     void Awake()
     {
-        coll =GetComponent<Collider2D>();
+        coll = GetComponent<Collider2D>();
         rigid = GetComponent<Rigidbody2D>();
-        anim=GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
         wait = new WaitForFixedUpdate();
     }
 
+    // FixedUpdate: ???? ???? ???? ????
     void FixedUpdate()
     {
-        if (!isLive|| anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")){
+        // ???? ??????? ????, Hit ??????? ???¶?? ???? ???
+        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit") || !GameManager.instance.gameStarted)
+        {
             return;
         }
+
+        // ????? ???????? ???? ??? ????? ?????? ???
+        if (target == null)
+        {
+            Debug.LogWarning("Target is not assigned for the enemy.");
+            return;
+        }
+
+        // ?????? ??? ???
         float distanceToTarget = Vector2.Distance(rigid.position, target.position);
 
+        // ????? moveDistance ???? ???? ??? ???? ???
         if (distanceToTarget <= moveDistance)
         {
-            Vector2 dirVec = target.position - rigid.position; // 위치 차이 계산
-            Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime; // 다음 프레임에서 이동할 벡터 계산
-            rigid.MovePosition(rigid.position + nextVec); // 새로운 위치로 이동
+            Vector2 dirVec = target.position - rigid.position; // ??? ???? ???
+            Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime; // ??? ???? ???
+            rigid.MovePosition(rigid.position + nextVec); // ??? ???
         }
-        rigid.velocity = Vector2.zero;
+        rigid.velocity = Vector2.zero; // ??? ?? ??? ????
     }
+
+    // LateUpdate: ?????? ???? ????
     void LateUpdate()
     {
-        if (!isLive)
+        if (!isLive || target == null)
             return;
 
+        // ???? ?÷???? ????? ????????? ???? ????
         spriter.flipX = target.position.x < rigid.position.x;
+        pos = transform.position;
     }
+
+    // OnEnable: ???? ?????? ?? ????
     void OnEnable()
     {
-        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        // GameManager?κ??? ?÷???? ??? ????
+        if (GameManager.instance != null && GameManager.instance.player != null)
+        {
+            target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        }
+        else
+        {
+            Debug.LogWarning("Player target not found for the enemy.");
+        }
+
+        // ?? ???? ????
         isLive = true;
         health = maxHealth;
-        isLive =true;
         coll.enabled = true;
-        rigid.simulated=true;
+        rigid.simulated = true;
         spriter.sortingOrder = 2;
         anim.SetBool("Dead", false);
     }
+
+    // Init: ???? ?????? ????
     public void Init(SpawnData data)
     {
-        anim.runtimeAnimatorController = animCon[data.spritType];
-        speed = data.speed;
-        moveDistance = data.moveDistance;
-        maxHealth = data.health;
-        health = data.health;
-
+        anim.runtimeAnimatorController = animCon[data.spritType]; // ??????? ?????? ????
+        speed = data.speed; // ??? ??? ????
+        moveDistance = data.moveDistance; // ??? ??? ????
+        maxHealth = data.health; // ??? ??? ????
+        health = data.health; // ???? ??? ????
     }
+
+    // OnTriggerEnter2D: ?浹 ???? ???
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // ?????? ?浹?? ???
         if (!collision.CompareTag("Bullet") || !isLive)
             return;
 
+        // ????? ????????? ??? ????
         health -= collision.GetComponent<Bullet>().damage;
-        StartCoroutine(KnockBack());
+        StartCoroutine(KnockBack()); // ??? ??? ???
 
-        if (health>0)//살았을때
+        if (health > 0)
         {
-            anim.SetTrigger("Hit");
+            anim.SetTrigger("Hit"); // Hit ??????? ????
         }
-        else//죽었을때
+        else
         {
-            isLive =false;
+            // ???? ????? ?? ???
+            isLive = false;
             coll.enabled = false;
-            rigid.simulated=false;
+            rigid.simulated = false;
             spriter.sortingOrder = 1;
             anim.SetBool("Dead", true);
-            GameManager.instance.GetExp();
+            GameManager.instance.GetExp(); // ????? ???
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
+            ItemDatabase.instance.DropItem(pos);
+            StartCoroutine(HandleDeath()); // 죽음 처리 코루틴 실행
         }
     }
 
-    IEnumerator KnockBack()
+    // HandleDeath: ???? ???? ???
+    IEnumerator HandleDeath()
+    {
+        yield return new WaitForSeconds(1.0f); // 1?? ???
+        Dead(); // Dead ????? ???
+    }
+
+    // KnockBack: ?÷????κ??? ??? ???
+    public IEnumerator KnockBack()
     {
         yield return wait;
 
-        Vector3 playerPos = GameManager.instance.player.transform.position;
-        Vector3 dirVec = transform.position - playerPos;
-        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+        if (GameManager.instance.player != null)
+        {
+            Vector3 playerPos = GameManager.instance.player.transform.position; // ?÷???? ???
+            Vector3 dirVec = transform.position - playerPos; // ??? ???? ???
+            rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse); // ?? ???
+        }
     }
 
+    // EnemyDeathHandler: ???? ?????? ????? ?????????
     public delegate void EnemyDeathHandler(GameObject enemy);
     public event EnemyDeathHandler OnEnemyDeath;
 
+    // Dead: ?? ???? ????
     void Dead()
     {
         if (OnEnemyDeath != null)
         {
-            OnEnemyDeath(gameObject);  // 이벤트 호출
+            OnEnemyDeath(gameObject); // ???? ?????? ???
         }
 
-        gameObject.SetActive(false);  // 적 비활성화
+        gameObject.SetActive(false); // ?? ??????
     }
 
-    // 적이 파괴되거나 사망 시 호출될 수 있는 메서드
+    // OnDestroy: ???? ?ı??? ?? ???
     void OnDestroy()
     {
         if (OnEnemyDeath != null)
         {
-            OnEnemyDeath(gameObject);  // 적 파괴 시 이벤트 호출
+            OnEnemyDeath(gameObject); // ???? ?????? ???
         }
     }
 
+    // SetTarget: ?÷???? ??? ????
+    public void SetTarget(Rigidbody2D playerTarget)
+    {
+        target = playerTarget;
+        Debug.Log($"Enemy target set: {name} -> {target.name}");
+    }
 }

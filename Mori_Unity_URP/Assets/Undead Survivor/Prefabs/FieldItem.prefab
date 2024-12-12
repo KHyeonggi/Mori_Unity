@@ -99,9 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-    itemType: 0
-    itemName: 
-    itemImage: {fileID: 0}
+    itemType: 1
+    itemName: Strawberry
+    itemImage: {fileID: 21300000, guid: 7ec850149b619bf4c810a2cc9b423003, type: 3}
+    efts:
+    - {fileID: 11400000, guid: adf48fc4648c6154ca39158f2f36bca9, type: 2}
   image: {fileID: 6725235117437337547}
 --- !u!58 &3454911512071214693
 CircleCollider2D:

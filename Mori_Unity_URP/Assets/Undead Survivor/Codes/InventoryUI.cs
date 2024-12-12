@@ -23,8 +23,8 @@ public class InventoryUI : MonoBehaviour
         for(int i=0; i<slots.Length; i++)
         {
             slots[i].slotnum = i;
-            Debug.Log("½½·Ô °¹¼ö" + slots[i]);
         }
+        Debug.Log("½½·Ô °¹¼ö" + slots);
     }
 
     private void Update()

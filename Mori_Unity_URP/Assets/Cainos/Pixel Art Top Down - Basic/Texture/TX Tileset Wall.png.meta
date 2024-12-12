@@ -902,7 +902,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 351
+        y: 352
         width: 32
         height: 32
       alignment: 0
@@ -910,10 +910,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: 1, y: -8}
-        - {x: 1, y: 3}
-        - {x: 2, y: 3}
-        - {x: 2, y: -8}
+      - - {x: -13, y: -6}
+        - {x: -13, y: 10}
+        - {x: 14, y: 10}
+        - {x: 14, y: -6}
       tessellationDetail: 0
       bones: []
       spriteID: a98380b527de88e41a465f8fe77eacda

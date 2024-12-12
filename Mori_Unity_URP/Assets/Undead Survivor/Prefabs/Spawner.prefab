@@ -59,7 +59,7 @@ MonoBehaviour:
     spawnTime: 0.5
   spawnInterval: 5
   spawnAmount: 1
-  spawnDuration: 30
+  spawnDuration: 1
 --- !u!1 &4692778291539330853
 GameObject:
   m_ObjectHideFlags: 0

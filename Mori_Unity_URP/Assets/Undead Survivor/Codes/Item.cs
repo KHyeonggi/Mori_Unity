@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum ItemType //아이템 타입
 {
     Equipment,
     Consumables,
-    Etc
+    Etc,Rewards
 }
 
 [System.Serializable]
